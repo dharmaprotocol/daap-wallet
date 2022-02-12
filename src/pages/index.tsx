@@ -282,7 +282,7 @@ const YourWalletsScreen: React.FC<YourWalletsScreenProps> = ({
                 access to your wallet and the tokens within.
               </Text>
               <InputWithButton
-                placeholder="Hexadecimal String"
+                placeholder="Secret (Hexadecimal String)"
                 value={dharmaSmartWalletPrivateKey}
                 onChange={e => setDharmaSmartWalletPrivateKey(e.target.value)}
                 button={
@@ -347,7 +347,7 @@ const FoundWalletScreen: React.FC<FoundWalletScreenProps> = ({
             </Text>
             <InputWithButton
               readOnly
-              placeholder="Hexadecimal String"
+              placeholder="Secret (Hexadecimal String)"
               value={foundWalletAddress}
               button={
                 <Button
@@ -1987,10 +1987,10 @@ export const Wallet = (): JSX.Element => {
         )}
         {screen === "FOUND_WALLET" && walletToImport && account && (
           <FoundWalletScreen
-            foundWalletAddress={walletToImport.address}
+            foundWalletAddress={walletToImport?.address}
             state={state}
             onClaim={() => {
-              claimDSW(account, walletToImport).catch(alert);
+              claimDSW().catch(alert);
             }}
           />
         )}

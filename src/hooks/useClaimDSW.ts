@@ -1,13 +1,20 @@
 import { Wallet as EthersWallet } from "@ethersproject/wallet";
 import { useContractFunction, useEthers } from "@usedapp/core";
-import { Wallet, ethers } from "ethers";
-import { useState } from "react";
+import { ethers } from "ethers";
+import { useState, useMemo } from "react";
 import { Abi, contractAddress } from "src/abis/IMerkleWalletClaimer";
 import merkleWalletClaimerData from "src/constants/merklewalletclaimerdata.json";
 
+interface MerkleWallet {
+  index: number
+  wallet: string
+  initialSigningKey: string
+  merkleProof: Array<string>
+}
+
 export const useClaimDSW = (walletToImport: EthersWallet | undefined) => {
   const [loading, setLoading] = useState(false);
-  const { library } = useEthers();
+  const { account, library } = useEthers();
 
   const contract = new ethers.Contract(
     contractAddress,
@@ -15,21 +22,32 @@ export const useClaimDSW = (walletToImport: EthersWallet | undefined) => {
     library?.getSigner()
   );
 
+  const merkleWallet: null | MerkleWallet = useMemo(() => {
+    if (!walletToImport?.address) {
+      return null;
+    }
+    // @ts-ignore
+    const merkleWallet: MerkleWallet = merkleWalletClaimerData[walletToImport.address];
+    return merkleWallet;
+  }, [walletToImport?.address]);
+
   const { state, send } = useContractFunction(contract, "claim", {
     transactionName: `Claim smart wallet ${walletToImport?.address}`
   });
 
-  const claim = async (connectedWalletAddress: string, wallet: Wallet) => {
+  const claim = async () => {
+    if (!account || !walletToImport || !merkleWallet) {
+      return false;
+    }
     // @ts-ignore
-    const entry = merkleWalletClaimerData[wallet.address];
     const {
       index,
       merkleProof,
       initialSigningKey,
       wallet: walletEntry
-    } = entry;
-    const claimantSignature = await wallet.signMessage(
-      ethers.utils.arrayify(connectedWalletAddress)
+    } = merkleWallet;
+    const claimantSignature = await walletToImport.signMessage(
+      ethers.utils.arrayify(account)
     );
 
     setLoading(true);
