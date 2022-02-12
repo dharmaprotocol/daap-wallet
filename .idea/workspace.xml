@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3f02633f-b9ef-4d14-bafb-56c8daa6aaef" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.eslintignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.eslintrc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/daap-dharma-wallet.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jsLinters/eslint.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXMonoWeb-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXMonoWeb-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXSub-BookSubset.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXSub-BookSubset.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXSub-MediumSubset.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXSub-MediumSubset.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXSub-RegularSubset.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXSub-RegularSubset.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXWeb-Book.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXWeb-Book.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXWeb-Medium.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXWeb-Medium.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXWeb-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/CircularXXWeb-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/Circular/circularFont.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/GTFlexa/GT-Flexa-Standard-Medium.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/GTFlexa/GT-Flexa-Standard-Medium.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/GTFlexa/GT-Flexa-Standard-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/GTFlexa/GT-Flexa-Standard-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/fonts/GTFlexa/gtFlexaFont.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/icons/EthereumMainnetIcon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/icons/PolygonIcon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/AppleAppStore.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/GooglePlayStore.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/add_bank.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/backed_by_desktop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/backed_by_mobile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/bank.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/ally.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/bankOfAmerica.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/capitalOne.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/chase.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/chime.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/citi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/fallbak.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/navy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/td.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/usaa.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/banks/wellsFargo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/blobs/bottom.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/blobs/hero.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/blobs/left1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/blobs/left2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/blobs/right1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/blobs/right2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/byow_steps/Error.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/byow_steps/Ethereum.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/byow_steps/Passport.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/byow_steps/connect_your_bank_account.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/byow_steps/connect_your_wallet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/byow_steps/enter_your_code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/byow_steps/success.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/byow_steps/verify.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/byow_steps/whats_your_email.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/announcements.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/community.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/defi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/design.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/development.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/lifestyle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/meme_life.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/nft.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/support.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/swapping.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/channel-icons/token_talk.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/coinbase.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/customer_support.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/dharma.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/dharma_logo_no_shadow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/dharma_logo_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/dharma_opensea.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/discord_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/get_the_app.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/keys.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/make_a_purchase.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/mirror.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/og_image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/plaid_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/plaid_stripe.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/referral_banner.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/ribbon_background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/stripe_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/submit_transaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/twitter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/walletconnect.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/wallets/metamask.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/wallets/metamask_no_background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/assets/images/wallets/wallet_connect.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/abis/ERC1155.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/abis/ERC721.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/abis/IMerkleWalletClaimer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/abis/Wallet.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXMonoWeb-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXMonoWeb-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXSub-BookSubset.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXSub-BookSubset.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXSub-MediumSubset.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXSub-MediumSubset.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXSub-RegularSubset.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXSub-RegularSubset.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXWeb-Book.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXWeb-Book.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXWeb-Medium.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXWeb-Medium.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXWeb-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/CircularXXWeb-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/Circular/circularFont.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/GTFlexa/GT-Flexa-Standard-Medium.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/GTFlexa/GT-Flexa-Standard-Medium.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/GTFlexa/GT-Flexa-Standard-Regular.woff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/GTFlexa/GT-Flexa-Standard-Regular.woff2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/fonts/GTFlexa/gtFlexaFont.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/icons/EthereumMainnetIcon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/icons/PolygonIcon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/AppleAppStore.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/GooglePlayStore.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/add_bank.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/backed_by_desktop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/backed_by_mobile.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/bank.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/ally.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/bankOfAmerica.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/capitalOne.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/chase.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/chime.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/citi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/fallbak.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/navy.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/td.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/usaa.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/banks/wellsFargo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/blobs/bottom.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/blobs/hero.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/blobs/left1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/blobs/left2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/blobs/right1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/blobs/right2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/byow_steps/Error.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/byow_steps/Ethereum.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/byow_steps/Passport.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/byow_steps/connect_your_bank_account.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/byow_steps/connect_your_wallet.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/byow_steps/enter_your_code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/byow_steps/success.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/byow_steps/verify.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/byow_steps/whats_your_email.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/announcements.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/community.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/defi.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/design.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/development.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/lifestyle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/meme_life.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/nft.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/support.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/swapping.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/channel-icons/token_talk.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/coinbase.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/customer_support.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/dharma.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/dharma_logo_no_shadow.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/dharma_logo_text.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/dharma_opensea.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/discord_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/get_the_app.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/keys.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/make_a_purchase.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/mirror.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/og_image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/plaid_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/plaid_stripe.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/referral_banner.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/ribbon_background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/stripe_logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/submit_transaction.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/twitter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/walletconnect.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/wallets/metamask.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/wallets/metamask_no_background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/images/wallets/wallet_connect.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/ArrowBox.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/AssetIcon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/BackButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Background.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Button.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Card.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/CloseButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/CopyWrapper.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/DharmaLogo.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Flex.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Icon.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Image.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Input.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/LinearGradient.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Link.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/LoadingIndicator.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Modal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/NavMenuButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/NumericalInput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/PhoneNumberInput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/ProgressBar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/RadioButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/atoms/Spacing.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/layouts/DappNavLayout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/molecules/InputWithButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/molecules/Nav.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/molecules/NavMenuModal.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/molecules/SearchInput.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/molecules/SelectATokenButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/molecules/SwitchNetworkButton.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/molecules/TokenRow.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/molecules/TokenSearchResultSection.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/organisms/Footer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/typography/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constants/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constants/merklewalletclaimerdata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/cssprop.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/chain.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/currency.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/number.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/text.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/token.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/helpers/type.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useClaimDSW.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useClaimedWallets.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useCurrentChain.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useDappScreen.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useDharmaSummary.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useFocus.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useImportTokens.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useIsDSWClaimed.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useIsLoggedIn.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useIsSwitchNetworkModalOpen.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useTransfer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useWalletConnect.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/icons/EthereumMainnetIcon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/icons/PolygonIcon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/bignumber.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/branch.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/schema.legacy.graphql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/schema.modern.graphql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/chain.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/components.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/navigation.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/styled.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/types/token.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="JsBowerSettings">
+    <bower-package value="" />
+    <bower.json value="" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="24w0em7VShLNc5BVtyRfVNnhgym" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="16.14.0" />
+    <property name="javascript.nodejs.core.library.typings.version" value="16.11.24" />
+    <property name="js.linters.configure.manually.selectedeslint" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.selected.package.eslint" value="$PROJECT_DIR$/node_modules/eslint" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="nodejs_interpreter_path" value="$USER_HOME$/.nvm/versions/node/v16.14.0/bin/node" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/public" />
+      <recent name="$PROJECT_DIR$/src/components/atoms" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3f02633f-b9ef-4d14-bafb-56c8daa6aaef" name="Changes" comment="" />
+      <created>1644526439302</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1644526439302</updated>
+      <workItem from="1644526440775" duration="328000" />
+      <workItem from="1644526820766" duration="2401000" />
+      <workItem from="1644529240496" duration="1301000" />
+      <workItem from="1644533411698" duration="16189000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

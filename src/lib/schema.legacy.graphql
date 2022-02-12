@@ -1,0 +1,3373 @@
+schema {
+  query: query
+  mutation: mutations
+}
+
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """
+  The variable name to export this field as.
+  """
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """
+  Specify the store key.
+  """
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+"""
+API Queries [Read]
+"""
+type query {
+  affiliate(code: String): affiliateType
+  user(id: Int): user
+  userLogin(email: String, password: String, referrer: String): userAuth
+  addressFromZipcode(zipcode: Int): address
+  getAddressFromZipcode(zipcode: String): address
+  refreshToken: userAuth
+  oAuthProvider(name: String, id: String, scopes: String): oAuthProvider
+  hasValidToken: Boolean
+  tokens: [token]
+  token(id: String): token
+  tokenBySymbol(id: String): token
+  tokenByAddress(address: String!, chainId: Int): token
+  suggestedTokens(chainId: Int, limit: Int): [token]
+  yTokens: [yToken]
+  yieldTokens: [yieldToken]
+  interestRateByTokenAndAction(
+    tokenSymbol: String
+    action: String
+  ): interestRate
+  interestRates: [interestRate]
+  compoundInterestRates: [compoundInterestRate]
+  getFeatureFlagsForUser(userId: Int): [String]
+  checkDharmaPin(givenKey: String): Boolean
+  hasDharmaPin: Boolean
+  getRecoveryCodeForUser(userId: Int): String
+  depositAttempt(depositAttemptId: Int): depositAttempt
+  depositAttempts: [depositAttempt]
+  detectedDeposit(tokenSymbol: String, startTime: String): depositAttempt
+  deposit(depositId: Int): deposit
+  deposits: [deposit]
+  withdrawalAttempt(withdrawalAttemptId: Int): withdrawalAttempt
+  withdrawalAttempts: [withdrawalAttempt]
+  withdrawal(savingsWithdrawalId: Int): savingsWithdrawal
+  withdrawals: [savingsWithdrawal]
+  savingsAccount(filter: String): savingsAccount
+  customAction(
+    amount: String
+    tokenSymbol: String
+    withdrawalAddress: String
+  ): smartWalletCustomAction
+  isSmartWalletInUse(address: String): Boolean
+  smartWallets: [smartWallet]
+  transactionsInFlight: Boolean
+  checkSmartWalletDharmaKey(dharmaKey: String): Boolean
+  hasSmartWalletDharmaKey: Boolean
+  assetsUnderManagementTicker: assetsUnderManagementTicker
+  globalInterestEarned: GlobalInterestEarnedType
+  getRedirectUrl: String
+  gasPriceEstimate(chainId: Int): Int
+  feeQuote(chainId: Int, tradeAmountUSD: Float): Float
+  coinbaseFee(amount: String): String
+  tokenPriceByAddress(chainId: Int, address: String): String
+  quoteAmountFromCoinbase(pair: String, usdAmount: String): CoinbaseQuote
+  coinbaseSupportedTokens: Int
+  revokeToken(token: String): String
+  onboarding: [String]
+  addKeyRequest(keyAddress: String): addKeyRequest
+  approvedKeys: [ApprovedKeyType]
+  isOnKeyRing(keyAddress: String, chainId: Int): Boolean
+  getUserVerificationUrl: String
+  setPermitFirewall: Boolean
+  getAchAuthorizationUploadUrl(fileType: String): achUploadUrlType
+  getBankTransfers: [AchTransfer]
+  optimisticAchDeposit: OptimisticAchDeposit
+  optimisticAchDepositQuote(amount: String): OptimisticAchDepositQuote
+  smartWalletRecoveries: [smartWalletRecoveryType]
+  smartWalletRecovery(id: Int): smartWalletRecoveryType
+  checkIfReadyForRecovery(id: Int): Boolean
+  identityUser(userId: Int): achUserType
+  identityUsers: [achUserType]
+  optimisticDeposits: [achOptimisticDeposit]
+  identityTransactions(userId: Int): [achTransactionsType]
+  getSurplusUnderlying: JSON
+  getDTokenInterestRates: JSON
+  getDTokenSpread: JSON
+  getSurplusPulls: [surplusPull]
+  manualDebitWithdrawals: [manualAchWithdrawalType]
+  debitOrderPreview(amount: Float, tokenSymbol: String): DebitDepositPreviewType
+  debitDepositAddress(userId: Int): DebitDepositAddress
+  depositChallenge: Boolean
+  debitDepositLimits: DebitDepositLimitsType
+  debitDepositLimitRemaining: DebitDepositLimitRemainingType
+  getBankAccounts: [BankAccountType]
+  debitCards: [DebitCardType]
+  usdcToDaiExchangeRate: usdcToDaiExchangeRateType
+  reserveDepositTimelock: String
+  ethBalance: String
+  username(username: String): usernameType
+  searchUsernames(username: String): [usernameType]
+  validUsername(username: String): Boolean
+  profileImageUploadUrl(contentType: String): profileUploadUrlType
+  profileImageUploadUrls(contentType: String): profileUploadUrlsType
+  reserveTrades: [reserveUSDCToDDaiTradeType]
+  ethToDaiQuote(ethAmount: String): ethToDaiQuote
+  ethToDaiQuoteWithFee(ethAmount: String): ethToDaiQuote
+  searchTwitterUsers(query: String): [twitterUserSearchResultType]
+  userTwitterInfo: twitterUserSearchResultType
+  personalActivityFeed(
+    type: String
+    page: Int
+    pageSize: Int
+  ): [activityFeedType]
+  globalActivityFeed(type: String, page: Int, pageSize: Int): [activityFeedType]
+  publicGlobalActivityFeed(
+    type: String
+    page: Int
+    pageSize: Int
+  ): [activityFeedType]
+  daiToETHQuote(daiAmount: String): ethToDaiQuote
+  daiToETHQuoteWithFee(daiAmount: String): ethToDaiQuote
+  getPushToken: String
+  pushNotificationStatus: tokenStatus
+  fraudCandidateList(userQuery: String): [fraudCandidate]
+  nextFraudQueue(current: Int): fraudCandidate
+  searchFraudQueue(email: String): fraudCandidate
+  searchUsers(
+    query: String
+    includeUnregisteredTwitterHandles: Boolean
+  ): [SearchResultType]
+  pendingFutureTransfersReceived: [futureTransfer]
+  futureTransfer(futureTransferId: Int): futureTransfer
+  hasVerifiedPhoneNumber(phone: String): Boolean
+  userScoreData: [userScoreDataView]
+  reserveSummary: reserveSummaryType
+  reserveWithdrawals: [reserveUSDCSurplusWithdrawals]
+  getCircleEncryptionKey: circlePublicEncryptionKeyType
+  getCircleWalletAvailableBalance: String
+  getCircleWalletUnsettledBalance: String
+  KYCEncryptionKey: String
+  getRecommendedMessage: String
+  downtime: Boolean
+  adminAudit(email: String): userAuditType
+  adminUserSSN(userId: Int): String
+  personalFeed(chainId: Int): [PersonalDisplayData]
+  pendingActivity(chainId: Int): [PersonalDisplayData]
+  recurringDeposits: [recurringDeposit]
+  reserveRebalanceTrades: [reserveTrade]
+  portfolioTokens: [portfolioTokenInterface]
+  portfolioValue: String
+  portfolioToken(address: String): portfolioTokenInterface
+  systemPreferences(service: String): [systemPreference]
+  getSPreferences: SPreferencesType
+  getUserPreferences: userPreferencesType
+  searchAssets(queryTerm: String, chainId: Int): [TokenInterface]
+  discover(chainId: Int): tokenDiscovery
+  portfolioView: portfolioView
+  portfolioViewV2(chainId: Int): portfolioViewV2
+  tokenView(chainId: Int, addresses: [String]): [portfolioTokenInterface]
+  achDepositAmountAvailable: String
+  achWithdrawalLimit(bankAccountId: Int): achLimit
+  achDepositLimit: limits
+  tokenPrice(tokenIds: [Int]): [tokenPrice]
+  historicalTokenPrices(tokenId: Int, span: String): [historicalTokenPrice]
+  tokenMetadata(tokenId: String): tokenMetadataType
+  tags: [tagType]
+  positions: [positionType]
+  smartWalletRecoveryStatus: String
+  appLoadInfo: appLoadInfo
+  tokenMarketData(tokenId: String): tokenMarketDataType
+  limitOrders: [limitOrder]
+  getVerificationStatuses: userVerificationLevelType
+  nextAchFraudQueue(current: Int): achFraudCandidate
+  allAchFraudCandidates: [achFraudCandidate]
+  nextReserveRebalance(current: Int): reserveRebalance
+  allReserveRebalances: [reserveRebalance]
+  achTokenTransferSupportedStates: [String]
+  achTokenDepositStatus(userId: Int): [achTokenDepositStatusType]
+  achTokenDepositSummary: [achTokenDepositStatusType]
+  portfolioChartData(span: String): [portfolioChartData]
+  hasClaimedReferral: Boolean
+  referralPreferences: ReferralPreferences
+  actionScripts(chainId: Int): [actionScript]
+  actionScript(name: String): actionScript
+  searchActionScripts(
+    searchString: String
+    chainId: Int
+  ): [ActionScriptInterface]
+  actionScriptsSummary: ActionScriptsSummaryType
+  protocols: [protocolInterface]
+  protocol(name: String): protocolInterface
+  yieldProtocols: [yieldProtocolType]
+  achActionFraudQueue: [achActionCandidate]
+  usdcYieldSummary: [USDCYieldType]
+  unmatchedSilvergateWires: [SilvergateWireDeposit]
+  getUserIdentityExists: Boolean
+  simulateAction(
+    actionScriptId: Int
+    variables: JSON
+    skipValidation: Boolean
+    fromReserves: Boolean
+  ): actionSimulationType
+  chains: [chainType]
+}
+
+type CoinbaseQuote {
+  fee: String
+  price: String
+  amount: String
+}
+
+"""
+User type
+"""
+type user {
+  id: Int!
+  email: String
+  ephemeral: Boolean
+  createdAt: String
+  updatedAt: String
+  firstName: String
+  lastName: String
+  roles: [userRoleType]
+  internetIdentities: [internetIdentity]
+  username: usernameType
+  smartWallet: smartWallet
+  oAuthProvider: oAuthProvider
+  shouldOnboard: Boolean
+  identity: identity
+  isVerified: Boolean
+  isVerificationRequired: Boolean
+  optionalFields: optionalInputInformationFieldsType
+  profileImage: profileImageType
+  inSupportedStateForBankTransfers: Boolean
+  isOTPAuthenticationEnabled: Boolean
+}
+
+"""
+User Role Type
+"""
+type userRoleType {
+  name: String
+}
+
+"""
+Internet Identity Type
+"""
+type internetIdentity {
+  id: String
+  identityId: String
+  identityType: String
+  screenName: String
+  claimedAt: String
+  userId: String
+}
+
+"""
+Username type
+"""
+type usernameType {
+  id: Int
+  fullName: String
+  username: String
+  address: String
+  createdAt: String
+  updatedAt: String
+  profileImage: profileImageType
+}
+
+"""
+Profile image type
+"""
+type profileImageType {
+  contentType: String
+  width: String
+  height: String
+  url: String
+}
+
+"""
+Smart Wallet Type
+"""
+type smartWallet {
+  id: Int
+  userId: Int
+  address: String
+  userSigningAddress: String
+  dharmaSigningAddress: String
+  deploymentTransactionHash: String
+  chainId: Int
+  custodyStatus: String
+  user: user
+}
+
+"""
+OAuth Provider Type
+"""
+type oAuthProvider {
+  name: String
+  id: String
+  scope: String
+}
+
+"""
+Identity type
+"""
+type identity {
+  wyreStatus: String
+  verificationStatus: verificationStatus
+  ssn: WyreStringType
+  phoneNumber: WyreStringType
+  legalName: WyreStringType
+  birthDate: WyreStringType
+  address: WyreAddressType
+  governmentId: Boolean
+  achAuthorizationForm: WyreStringType
+  proofOfAddress: WyreBooleanType
+  sourceOfFunds: WyreBooleanType
+}
+
+enum verificationStatus {
+  REQUIRES_ACTION
+  PROCESSING
+  SUCCEEDED
+  CANCELED
+}
+
+"""
+Wyre field with string value
+"""
+type WyreStringType implements WyreInterfaceType {
+  note: String
+  value: String
+  status: String
+}
+
+"""
+Describes the fields shared among all wyre types
+"""
+interface WyreInterfaceType {
+  note: String
+  status: String
+}
+
+"""
+Wyre field with boolean value value
+"""
+type WyreAddressType implements WyreInterfaceType {
+  note: String
+  value: address
+  status: String
+}
+
+"""
+Address of a user
+"""
+type address {
+  street1: String
+  street2: String
+  city: String
+  state: String
+  postalCode: String
+  country: String
+}
+
+"""
+Wyre field with boolean value value
+"""
+type WyreBooleanType implements WyreInterfaceType {
+  note: String
+  value: Boolean
+  status: String
+}
+
+"""
+Information about a user added when signing up
+"""
+type optionalInputInformationFieldsType {
+  country: String
+  state: String
+}
+
+"""
+User Authentication Type
+"""
+type userAuth {
+  user: user
+  token: String
+  logInOTPAuthenticationRequired: Boolean
+  userFacingErrors: [UserFacingError]
+}
+
+"""
+User-facing error
+"""
+type UserFacingError {
+  id: String
+  message: String
+  errorType: String
+  context: JSON
+  createdAt: String
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+"""
+Token Type
+"""
+type token implements TokenInterface {
+  id: String
+  address: String
+  symbol: String
+  name: String
+  numDecimals: Int
+  createdAt: String
+  updatedAt: String
+  chainId: String
+  price: String
+  previousPrice: String
+  marketCap: String
+  yToken: yToken
+  yieldToken: yieldToken
+  supportedActionScripts: [ActionScriptInterface]
+  tokenIcon: tokenIconType
+  verificationStatus: String
+  manualOverride: Boolean
+}
+
+interface TokenInterface {
+  id: String
+  address: String
+  symbol: String
+  name: String
+  numDecimals: Int
+  createdAt: String
+  updatedAt: String
+  chainId: String
+  price: String
+  previousPrice: String
+  marketCap: String
+  supportedActionScripts: [ActionScriptInterface]
+  tokenIcon: tokenIconType
+  verificationStatus: String
+  manualOverride: Boolean
+}
+
+interface ActionScriptInterface {
+  id: String
+  name: String
+  actionSummary: String
+  metadata: JSON
+  variables: JSON
+  results: JSON
+  protocols: [protocolType]
+  tags: [tagType]
+  displayTokens: [TokenInterface]
+  numberOfSupportedTokens: Int
+  inputTokens: [ActionScriptTokenInterface]
+  outputTokens: [ActionScriptTokenInterface]
+  createdAt: String
+  updatedAt: String
+  supplementaryVariables: [ActionScriptVariableType]
+}
+
+"""
+Protocol Type
+"""
+type protocolType implements protocolInterface {
+  id: String
+  name: String
+  displayToken: token
+}
+
+interface protocolInterface {
+  id: String
+  name: String
+  displayToken: token
+}
+
+"""
+Tag Type
+"""
+type tagType {
+  id: String
+  key: String
+  name: String
+  description: String
+  emoji: String
+}
+
+interface ActionScriptTokenInterface {
+  tokenAddressVariableName: String
+  tokenAmountVariableName: String
+}
+
+union ActionScriptVariableType =
+    AddressType
+  | IntegerType
+  | BooleanType
+  | TokenAddressType
+  | AmountType
+  | EnumType
+  | TokenAndAmountType
+  | TokenAndAmountSupportingBankType
+  | SelectAddressType
+  | AmountWithOptionsType
+  | BytesType
+  | WalletConnectContextType
+
+"""
+Address Type
+"""
+type AddressType {
+  variableName: String
+  prompt: String
+}
+
+"""
+Integer Type
+"""
+type IntegerType {
+  variableName: String
+  prompt: String
+}
+
+"""
+Boolean Type
+"""
+type BooleanType {
+  variableName: String
+  prompt: String
+}
+
+"""
+Token Address Type
+"""
+type TokenAddressType {
+  variableName: String
+  prompt: String
+  supportedTokens: [SupportedTokenType]
+}
+
+"""
+Supported Token Type
+"""
+type SupportedTokenType implements TokenInterface {
+  id: String
+  address: String
+  symbol: String
+  name: String
+  numDecimals: Int
+  createdAt: String
+  updatedAt: String
+  chainId: String
+  price: String
+  previousPrice: String
+  marketCap: String
+  yieldToken: yieldToken
+  availableViaEscrow: Boolean
+  availableViaBankAccount: Boolean
+  supportedActionScripts: [ActionScriptInterface]
+  tokenIcon: tokenIconType
+  verificationStatus: String
+  manualOverride: Boolean
+}
+
+"""
+Yield Token Type
+"""
+type yieldToken implements TokenInterface {
+  id: String
+  address: String
+  symbol: String
+  name: String
+  numDecimals: Int
+  createdAt: String
+  updatedAt: String
+  chainId: String
+  yieldTokenData: yieldProtocolTokenDataType
+  depositToken: token
+  previousPrice: String
+  price: String
+  marketCap: String
+  yieldToken: yieldToken
+  supportedActionScripts: [ActionScriptInterface]
+  tokenIcon: tokenIconType
+  verificationStatus: String
+  manualOverride: Boolean
+}
+
+"""
+Yield Protocol Token Data Type
+"""
+type yieldProtocolTokenDataType {
+  poolSize: String
+  apy: String
+  roi: String
+  exchangeRate: String
+}
+
+"""
+Token Icon Type
+"""
+type tokenIconType {
+  primaryTokens: [token]
+  secondaryTokens: [token]
+}
+
+"""
+Amount Type
+"""
+type AmountType {
+  variableName: String
+  prompt: String
+}
+
+"""
+Enum Type
+"""
+type EnumType {
+  variableName: String
+  labels: [String]
+  prompt: String
+}
+
+"""
+Token And Amount Type
+"""
+type TokenAndAmountType {
+  variableName: String
+  prompt: String
+  supportedTokens: [SupportedTokenType]
+}
+
+"""
+Token And Amount Supporting Bank Type
+"""
+type TokenAndAmountSupportingBankType {
+  variableName: String
+  prompt: String
+  supportedTokens: [SupportedTokenType]
+}
+
+"""
+Select Address Type
+"""
+type SelectAddressType {
+  variableName: String
+  prompt: String
+  selectableAddresses: [SelectableAddressType]
+}
+
+"""
+Selectable Address Type
+"""
+type SelectableAddressType {
+  label: String
+  address: String
+}
+
+"""
+Amount With Options Type
+"""
+type AmountWithOptionsType {
+  variableName: String
+  prompt: String
+  defaultAmountIndex: Int
+  selectableAmounts: [AmountOptionType]
+  valueSuffix: String
+}
+
+"""
+Amount Option Type
+"""
+type AmountOptionType {
+  value: String
+}
+
+"""
+Bytes Type
+"""
+type BytesType {
+  variableName: String
+  prompt: String
+}
+
+"""
+WalletConnect Context Type
+"""
+type WalletConnectContextType {
+  variableName: String
+  prompt: String
+}
+
+"""
+yToken Type
+"""
+type yToken implements TokenInterface {
+  id: String
+  address: String
+  symbol: String
+  name: String
+  numDecimals: Int
+  createdAt: String
+  updatedAt: String
+  chainId: String
+  yieldToken: yVault
+  depositToken: token
+  previousPrice: String
+  price: String
+  marketCap: String
+  yToken: yToken
+  supportedActionScripts: [ActionScriptInterface]
+  tokenIcon: tokenIconType
+  verificationStatus: String
+  manualOverride: Boolean
+}
+
+"""
+yVault Type
+"""
+type yVault {
+  id: String
+  oneMonthAPY: String
+  inceptionAPY: String
+  exchangeRate: String
+  poolSize: String
+  numHolders: String
+  price: String
+}
+
+"""
+InterestRate Type
+"""
+type interestRate {
+  id: Int
+  value: Float
+  action: String
+  tokenId: Int
+  token: token
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+compoundInterestRate Type
+"""
+type compoundInterestRate {
+  tokenSymbol: String
+  value: Float
+}
+
+"""
+Deposit Attempt Type
+"""
+type depositAttempt implements ActivityInterfaceType {
+  id: String
+  type: String
+  tokenId: Int
+  userId: Int
+  amount: String
+  detectedAt: String
+  succeededAt: String
+  failedAt: String
+  triggeredAt: String
+  status: String
+  statuses: [depositAttemptStatus]
+  interestEarnedInFirstDay: String
+  token: token
+  createdAt: String
+}
+
+"""
+Describes the fields shared among all activity card types
+"""
+interface ActivityInterfaceType {
+  id: String
+  type: String
+  token: token
+  amount: String
+  status: String
+  createdAt: String
+}
+
+"""
+Deposit Attempt Status Type
+"""
+type depositAttemptStatus {
+  status: String
+  depositAttemptId: Int
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+Deposit Type
+"""
+type deposit {
+  id: String
+  tokenId: Int
+  userId: Int
+  amount: String
+  interestEarnedInFirstDay: String
+  attempt: depositAttempt
+  statuses: [depositAttemptStatus]
+  user: user
+  token: token
+  status: String
+  createdAt: String
+}
+
+"""
+Withdrawal Attempt Type
+"""
+type withdrawalAttempt implements ActivityInterfaceType {
+  id: String
+  type: String
+  tokenId: Int
+  userId: Int
+  amount: String
+  withdrawalAddress: String
+  status: String
+  succeededAt: String
+  failedAt: String
+  statuses: [withdrawalAttemptStatus]
+  token: token
+  createdAt: String
+}
+
+"""
+Withdrawal Attempt Status Type
+"""
+type withdrawalAttemptStatus {
+  status: String
+  withdrawalAttemptId: Int
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+withdrawal Type
+"""
+type savingsWithdrawal {
+  id: String
+  tokenId: Int
+  userId: Int
+  amount: String
+  withdrawalAddress: String
+  attempt: withdrawalAttempt
+  statuses: [withdrawalAttemptStatus]
+  user: user
+  token: token
+  status: String
+  createdAt: String
+}
+
+"""
+Savings Account Type
+"""
+type savingsAccount {
+  id: String
+  totalInterest: String
+  interest: [interest]
+  deposits: [ActivityInterfaceType]
+  withdrawals: [ActivityInterfaceType]
+  transfers: [ActivityInterfaceType]
+  tradeDeposits: [usdcToDaiTradeDepositType]
+  tradeWithdrawals: [usdcToDaiTradeWithdrawalType]
+  unsettledPaymentReceipts: [paymentReceiptType]
+  unsettledUTXOs: [utxoType]
+  reserveDeposits: [reserveDepositType]
+  activity: [ActivityInterfaceType]
+  balance: balance
+}
+
+"""
+Interest Type
+"""
+type interest {
+  token: String
+  rate: String
+}
+
+"""
+USDC To Dai Trade Deposit Type
+"""
+type usdcToDaiTradeDepositType {
+  id: String
+  createdAt: String
+  type: String
+  status: String
+  token: token
+  amount: String
+}
+
+"""
+USDC To Dai Trade Withdrawal Type
+"""
+type usdcToDaiTradeWithdrawalType {
+  id: String
+  createdAt: String
+  type: String
+  status: String
+  token: token
+  amount: String
+}
+
+"""
+Payment Receipt Type
+"""
+type paymentReceiptType {
+  id: Int
+  type: String
+  status: String
+  token: token
+  createdAt: String
+  timelockEndsAt: String
+  amount: String
+}
+
+"""
+UTXO Type
+"""
+type utxoType {
+  id: Int
+  type: String
+  status: String
+  token: token
+  createdAt: String
+  timelockEndsAt: String
+  amount: String
+  typeInfo: UTXOInfoType
+}
+
+"""
+UTXO Info Type
+"""
+type UTXOInfoType {
+  type: String
+  exchangeRate: String
+  p2pSource: user
+}
+
+"""
+Reserve Deposit Type
+"""
+type reserveDepositType {
+  id: Int
+  type: String
+  status: String
+  token: token
+  createdAt: String
+  amount: String
+}
+
+"""
+Balance Type
+"""
+type balance {
+  tokenBalances: [tokenBalance]
+  totalBalance: totalBalance
+}
+
+"""
+Token Balance Type
+"""
+type tokenBalance {
+  token: String
+  USD: String
+  withdrawableAmount: String
+  transferrableAmount: String
+  tradableAmount: String
+  interestEarned: String
+}
+
+"""
+Total Balance Type
+"""
+type totalBalance {
+  USDin24h: String
+  USD: String
+}
+
+"""
+Smart Wallet Custom Action Type
+"""
+type smartWalletCustomAction {
+  actionId: String
+  data: String
+  feeTokenId: Int
+  feeAmount: String
+  withdrawalAmountAfterFee: String
+}
+
+"""
+Assets Under Management Ticker Type
+"""
+type assetsUnderManagementTicker {
+  total: String
+  totalIn24h: String
+}
+
+"""
+Global Interest Earned Type
+"""
+type GlobalInterestEarnedType {
+  total: String
+  totalIn24h: String
+}
+
+"""
+Add Key Request Type
+"""
+type addKeyRequest {
+  id: Int
+  address: String
+  actionId: String
+  addKeyApprovalId: Int
+  addKeyRejectId: Int
+}
+
+"""
+Approved Key Type
+"""
+type ApprovedKeyType {
+  id: String
+  address: String
+  metaData: addKeyRequestMetadata
+}
+
+"""
+Add Key Request Metadata type
+"""
+type addKeyRequestMetadata {
+  agentString: String
+  ipAddress: String
+}
+
+"""
+Ach Upload Url type
+"""
+type achUploadUrlType {
+  uploadUrl: String
+  location: String
+  type: String
+}
+
+"""
+Ach Transfer Type
+"""
+type AchTransfer {
+  id: String
+  token: token
+  closedAt: String
+  destination: String
+  status: String
+  source: String
+  amount: String
+}
+
+"""
+Optimistic ACH Deposit Type
+"""
+type OptimisticAchDeposit {
+  id: String
+  amount: String
+  token: token
+  achDepositRequestId: Int
+}
+
+"""
+Optimistic ACH Deposit Quote Type
+"""
+type OptimisticAchDepositQuote {
+  amount: String
+  token: token
+  estimatedFee: String
+  estimatedDepositAmount: String
+}
+
+"""
+Smart Wallet Recovery Type
+"""
+type smartWalletRecoveryType {
+  id: Int
+  createdAt: String
+  initiatedAt: String
+  cancelledAt: String
+  completedAt: String
+  deniedAt: String
+  additionalTimeLockDays: Int
+  smartWalletAddress: String
+  user: user
+  balance: String
+  signatureCount: Int
+  signedBy: [Int]
+  initiationTransactionStatus: String
+  recoverTransactionStatus: String
+  custodyStatus: String
+  clientSnapshots: [String]
+  emails: [String]
+}
+
+"""
+Ach User Type
+"""
+type achUserType {
+  userId: Int
+  name: String
+  wyreStatus: String
+  wyreAccountId: String
+  optimisticDepositAmount: Float
+  email: String
+  profileFields: [achProfileFieldType]
+  startedAt: String
+  statusUpdatedAt: String
+}
+
+"""
+Ach Profile Field Type
+"""
+type achProfileFieldType {
+  fieldType: String
+  value: String
+  note: String
+  status: String
+  fieldId: String
+}
+
+"""
+Ach Optimistic Deposit Type
+"""
+type achOptimisticDeposit {
+  token: token
+  user: user
+  amount: Float
+  achDepositConfirmation: achDepositConfirmation
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+Ach Deposit Type
+"""
+type achDepositConfirmation {
+  achDepositConfirmationSuccessId: Int
+  achDepositConfirmationFailureId: Int
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+Ach Transaction Type
+"""
+type achTransactionsType {
+  closedAt: String
+  createdAt: String
+  sourceAmount: String
+  destAmount: String
+  status: String
+  USDFeeDebit: String
+  USDCFeeDebit: String
+  id: String
+}
+
+"""
+Surplus Pull Type
+"""
+type surplusPull {
+  id: String
+  transactionHash: String
+  cTokenAmount: String
+  user: user
+  token: token
+  createdAt: String
+}
+
+"""
+Manual Ach Withdrawal Type
+"""
+type manualAchWithdrawalType {
+  amount: String
+  transferAt: String
+  user: user
+  token: token
+  bankAccount: adminBankAccountType
+  accountNumber: String
+  routingNumber: String
+  wireTransferNumber: String
+  withdrawalAttempt: withdrawalAttempt
+  createdAt: String
+  status: String
+}
+
+"""
+Admin Bank Account Type
+"""
+type adminBankAccountType {
+  accountNumber: String
+  routingNumber: String
+  wireTransferNumber: String
+  revokedAt: String
+}
+
+"""
+DebitDepositPreview type
+"""
+type DebitDepositPreviewType {
+  fee: String
+  sourceAmount: String
+  destAmount: String
+}
+
+"""
+DebitDepositAddress type
+"""
+type DebitDepositAddress {
+  address: String
+}
+
+"""
+DebitDepositLimits type
+"""
+type DebitDepositLimitsType {
+  weekly: DebitDepositLimitMetadataType
+  monthly: DebitDepositLimitMetadataType
+  yearly: DebitDepositLimitMetadataType
+}
+
+"""
+DebitDepositLimitMetadata type
+"""
+type DebitDepositLimitMetadataType {
+  limit: Int
+  perPeriodText: String
+  periodLimitText: String
+}
+
+"""
+DebitDepositLimitRemaining type
+"""
+type DebitDepositLimitRemainingType {
+  weekly: Int
+  monthly: Int
+  yearly: Int
+}
+
+"""
+Bank Account type
+"""
+type BankAccountType {
+  id: String
+  institute: String
+  last4: String
+  revokedAt: String
+  fullName: String
+  connectionStatus: String
+}
+
+"""
+Debit Card type
+"""
+type DebitCardType {
+  id: String
+  type: String
+  exp: String
+  last4: String
+  revokedAt: String
+  isApplePay: Boolean
+  debitCardId: String
+  address: DebitCardAddressType
+  phoneNumber: PhoneNumberType
+  circleDebitCardRef: String
+}
+
+"""
+Address type
+"""
+type DebitCardAddressType {
+  state: String
+}
+
+"""
+Phone Number type
+"""
+type PhoneNumberType {
+  id: String
+  number: String
+  verified: Boolean
+}
+
+"""
+USDC To Dai Exchange Rate Type
+"""
+type usdcToDaiExchangeRateType {
+  usdcAmount: String
+  quotedDaiAmount: String
+  exchangeRate: String
+  rawTokenExchangeRate: String
+  priceFloatLimit: String
+  minimumDaiAmount: String
+}
+
+"""
+Profile Upload Url Type
+"""
+type profileUploadUrlType {
+  uploadUrl: String
+  location: String
+  type: String
+}
+
+"""
+Profile Upload Urls Type
+"""
+type profileUploadUrlsType {
+  large: profileUploadUrlType
+  small: profileUploadUrlType
+}
+
+"""
+Reserve Trade Type
+"""
+type reserveUSDCToDDaiTradeType {
+  id: Int
+  usdcAmount: String
+  daiEquivalentReceived: String
+  dDaiReceived: String
+  tradeDifference: Float
+  transactionHash: String
+  createdAt: String
+}
+
+"""
+ETH To Dai Quote Type
+"""
+type ethToDaiQuote {
+  price: String
+  daiAmount: String
+  ethAmount: String
+  fee: String
+}
+
+"""
+Twitter User-Search Result Type
+"""
+type twitterUserSearchResultType {
+  twitterId: String
+  twitterName: String
+  twitterUsername: String
+  isVerified: String
+  profilePhotoUrl: String
+  smartWalletAddress: String
+}
+
+"""
+Activity Feed type
+"""
+type activityFeedType {
+  id: Int
+  message: String
+  type: String
+  status: String
+  amount: String
+  source: activityLocationType
+  destination: activityLocationType
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+Activity Location Type
+"""
+type activityLocationType {
+  id: Int
+  conversion: activityConversionType
+  last4: String
+  address: String
+  fullName: String
+  username: String
+  twitterHandle: String
+  profileImage: profileImageType
+  card: DebitCardType
+}
+
+"""
+Activity Conversion Type
+"""
+type activityConversionType {
+  price: String
+  daiAmount: String
+  ethAmount: String
+  fee: String
+}
+
+"""
+Token Status Type
+"""
+type tokenStatus {
+  blocked: Boolean
+  token: String
+}
+
+"""
+Fraud Candidate Type
+"""
+type fraudCandidate {
+  id: Int
+  name: String
+  email: String
+  cognitoIdentityRecords: [cognitoIdentityRecordType]
+  orderIds: String
+  circlePaymentRefs: String
+  numSuccessfulOrders: Int
+  numPendingOrders: Int
+  totalDebitCardDepositAmount: Float
+  UTXO: [fraudUTXOType]
+  userScore: userScoreDataView
+  total: Int
+  activities: [activityFeedType]
+  phoneNumbers: [PhoneNumberType]
+  ips: [String]
+  plaidNames: [String]
+  isBanned: Boolean
+}
+
+"""
+Cognito Identity Record Type
+"""
+type cognitoIdentityRecordType {
+  type: String
+  value: String
+}
+
+"""
+Fraud UTX Type
+"""
+type fraudUTXOType {
+  id: Int
+  amount: String
+  endsAt: String
+  status: String
+}
+
+"""
+User Score Data type
+"""
+type userScoreDataView {
+  userId: Int
+  email: String
+  userName: String
+  device: String
+  location: String
+  metersFromCard: String
+  secondsUntilDeposit: String
+  cardAddress: String
+  nameOnCard: String
+  firstDepositAt: String
+  chargebackRisk: Int
+}
+
+"""
+Search Result Type
+"""
+type SearchResultType {
+  userId: String
+  fullName: String
+  username: String
+  twitterHandle: String
+  address: String
+  profileImageUrl: String
+  internetSearchResults: [InternetSearchResultType]
+}
+
+"""
+Internet Search Result Type
+"""
+type InternetSearchResultType {
+  fullName: String
+  username: String
+  profileImageUrl: String
+  identityId: String
+  identityType: String
+}
+
+"""
+Future Transfer Type
+"""
+type futureTransfer {
+  id: String
+  amount: String
+  createdAt: String
+  acceptedAt: String
+  declinedAt: String
+  message: String
+  senderUserId: String
+  senderUserProfileImage: profileImageType
+  senderUserInternetIdentities: [internetIdentity]
+  senderUserName: usernameType
+  receiverInternetIdentity: internetIdentity
+}
+
+"""
+Reserve Summary Type
+"""
+type reserveSummaryType {
+  address: String
+  assetSummary: [assetSummaryType]
+}
+
+"""
+Asset Summary Type
+"""
+type assetSummaryType {
+  symbol: String
+  balance: String
+  surplus: String
+  owedInFourteenDays: String
+  owedInSevenDays: String
+  owedInOneDay: String
+}
+
+"""
+Reserve USDC Surplus Withdrawal Type
+"""
+type reserveUSDCSurplusWithdrawals {
+  id: Int
+  usdcAmount: String
+  transactionHash: String
+  createdAt: String
+  succeededAt: String
+  failedAt: String
+}
+
+"""
+Circle Public Encryption Key Type
+"""
+type circlePublicEncryptionKeyType {
+  keyId: String
+  publicKey: String
+}
+
+"""
+User Audit Type
+"""
+type userAuditType {
+  user: user
+}
+
+type PersonalDisplayData {
+  id: String
+  firstLine: String
+  secondLine: String
+  icon: String
+  fee: String
+  ethPrice: String
+  assetPrice: String
+  dateShort: String
+  dateLong: String
+  toEthereumAddress: String
+  fromEthereumAddress: String
+  fromYourCrypto: Boolean
+  withDharmaBalance: String
+  profileImageLarge: String
+  profileImageSmall: String
+  paymentExpiresIn: String
+  amount: String
+  withdrawableIn: String
+  cardProvider: String
+  bankProvider: String
+  message: String
+  last4: String
+  displayId: String
+  timestamp: String
+  subIcon: String
+  state: String
+  subtitle: String
+  toDaiAddress: String
+  fromDaiAddress: String
+  total: String
+  activityProperties: [ActivityPropertiesType]
+}
+
+type ActivityPropertiesType {
+  key: String
+  detailValue: String
+}
+
+"""
+Recurring Deposit Type
+"""
+type recurringDeposit {
+  id: Int
+  frequency: String
+  createdAt: String
+  processor: String
+  amount: String
+  debitCardId: Int
+}
+
+"""
+Reserve Re-balancing Trade Type
+"""
+type reserveTrade {
+  id: Int
+  soldAmount: String
+  boughtAmount: String
+  soldTokenSymbol: String
+  boughtTokenSymbol: String
+  transactionHash: String
+  createdAt: String
+}
+
+interface portfolioTokenInterface {
+  id: Int
+  order: Int
+  token: TokenInterface
+  hidden: Boolean
+  balance: String
+  balanceValue: String
+  withdrawableAmount: String
+  utxoAmount: String
+  utxoUnderReviewAmount: String
+  tradableAmount: String
+  isTokenTradable: Boolean
+  hasHistoricalPriceData: Boolean
+  verificationStatus: String
+}
+
+"""
+System Preference Type
+"""
+type systemPreference {
+  service: String
+  preferences: JSON
+}
+
+"""
+S Preferences type
+"""
+type SPreferencesType {
+  networkFeeWaivedThreshold: String
+  accountRecoveryTimelock: String
+  sEndDate: String
+}
+
+"""
+User Preferences type
+"""
+type userPreferencesType {
+  ethPriceAlerts: JSON
+}
+
+"""
+Token Discovery
+"""
+type tokenDiscovery {
+  topMovers: [TokenInterface]
+  trending: [TokenInterface]
+  topByMarketCap: [TokenInterface]
+  topByVolume: [TokenInterface]
+}
+
+"""
+PortfolioView Type
+"""
+type portfolioView {
+  portfolioValue: String
+  portfolioValueYesterday: String
+  tokens: [portfolioTokenInterface]
+  achDepositAmountAvailable: String
+  achWithdrawalLimit: String
+}
+
+"""
+PortfolioViewV2 Type
+"""
+type portfolioViewV2 {
+  portfolioValue: String
+  portfolioValueYesterday: String
+  tokens: [portfolioTokenInterfaceV2]
+}
+
+interface portfolioTokenInterfaceV2 {
+  id: Int
+  token: TokenInterface
+  balance: String
+  balanceValue: String
+}
+
+"""
+ACHLimit Type
+"""
+type achLimit {
+  minimum: String
+  maximum: String
+}
+
+"""
+Limits for Fiat Rails
+"""
+type limits {
+  weeklyLimit: Int
+}
+
+"""
+Token Price Type
+"""
+type tokenPrice {
+  tokenId: Int
+  marketPrice: String
+  dayAgoPrice: String
+  hourAgoPrice: String
+  currencySymbol: String
+  tokenSymbol: String
+  tokenAddress: String
+  updatedAt: String
+}
+
+"""
+Historical Token Price Type
+"""
+type historicalTokenPrice {
+  tokenId: Int
+  minPrice: Float
+  medianPrice: Float
+  maxPrice: Float
+  updatedAt: Int
+}
+
+"""
+Token Metadata Type
+"""
+type tokenMetadataType {
+  id: String
+  address: String
+  symbol: String
+  name: String
+  numDecimals: Int
+  tags: [String]
+  description: String
+  socialLinks: socialLinksType
+  verificationStatus: String
+}
+
+"""
+All the social links
+"""
+type socialLinksType {
+  twitter: String
+  website: String
+  discord: String
+  telegram: String
+}
+
+"""
+Position Type
+"""
+type positionType {
+  tokenId: Int
+  quantity: Float
+  averageBuyPrice: Float
+}
+
+"""
+AppLoadInfo Type
+"""
+type appLoadInfo {
+  userId: String
+  tokenIsValid: Boolean
+  emailIsVerified: Boolean
+  emailVerificationRequired: Boolean
+  featureFlags: [String]
+  smartWallet: appLoadSmartWalletType
+  achDepositWeeklyLimit: String
+  referralCode: String
+  eligibleForReferral: Boolean
+  username: String
+  referrals: referralsPreferencesType
+}
+
+"""
+AppLoad Smart Wallet Type
+"""
+type appLoadSmartWalletType {
+  id: Int
+  userId: Int
+  address: String
+  userSigningAddress: String
+  userSigningAddresses: [String]
+  deploymentHash: String
+  custodyStatus: String
+  recoveryStatus: String
+}
+
+"""
+Referrals Preferences
+"""
+type referralsPreferencesType {
+  referralAmount: String
+  depositAmountThreshold: String
+}
+
+"""
+Token Market Data Type
+"""
+type tokenMarketDataType {
+  marketCap: Float
+  volume24H: Float
+  volume7D: Float
+  high24H: Float
+  low24H: Float
+  fullyDilutedValuation: Float
+  liquidity: String
+  dateAdded: String
+  totalSupply: Int
+}
+
+"""
+Limit Order Type
+"""
+type limitOrder {
+  id: Int
+  orderId: String
+  salt: String
+  buyTokenId: Int
+  sellTokenId: Int
+  buyAmount: String
+  sellAmount: String
+  cancelledAt: String
+  createdAt: String
+  filledAt: String
+  expiresAt: String
+  buyToken: token
+  sellToken: token
+}
+
+"""
+User Verification Level Type
+"""
+type userVerificationLevelType {
+  levelOne: userVerificationLevelStatusType
+  levelTwo: userVerificationLevelStatusType
+}
+
+"""
+User Verification Level Status Type
+"""
+type userVerificationLevelStatusType {
+  level: Int
+  status: String
+  failureReason: String
+  createdAt: String
+}
+
+"""
+ACH Fraud Candidate Type
+"""
+type achFraudCandidate {
+  bankAccountId: Int
+  userId: Int
+  email: String
+  dharmaFirstName: String
+  dharmaLastName: String
+  numACHDeposits: String
+  totalACHDepositAmount: String
+  userCreatedAt: String
+  stripeIdentityDocuments: stripeIdentityDocuments
+  plaidIdentityRecords: String
+  verificationLevelStatuses: String
+  riskLevel: String
+  riskEvaluatedAt: String
+}
+
+"""
+Stripe identity document links
+"""
+type stripeIdentityDocuments {
+  selfieLink: String
+  documentFrontLink: String
+  documentBackLink: String
+}
+
+"""
+Reserve Rebalance Type
+"""
+type reserveRebalance {
+  empty: Boolean
+  id: Int
+  rebalanceType: String
+  bankAccountIds: [Int]
+  userId: Int
+  email: String
+  dharmaFirstName: String
+  dharmaLastName: String
+  numACHDeposits: String
+  totalACHDepositAmount: String
+  userCreatedAt: String
+  stripeIdentityDocuments: stripeIdentityDocuments
+  plaidIdentityRecords: String
+  verificationLevelStatuses: String
+  usdAmount: String
+  transferType: String
+  userTradeQuote: String
+  currentTradeQuote: String
+  currentQuoteForSellAmount: String
+}
+
+"""
+ACH Token Deposit Status
+"""
+type achTokenDepositStatusType {
+  achTokenTransfer: achTokenTransferStatusType
+  utxos: [achTokenTransferUTXOStatusType]
+}
+
+"""
+ACH Token Transfer Status
+"""
+type achTokenTransferStatusType {
+  id: Int
+  amount: String
+  usdAmount: String
+  status: String
+  token: token
+}
+
+"""
+ACH Token Transfer Status
+"""
+type achTokenTransferUTXOStatusType {
+  id: Int
+  amount: String
+  status: String
+  reason: String
+  stage: String
+  type: String
+  timelockEndsAt: String
+  token: token
+}
+
+"""
+Historical Portfolio Value Chart
+"""
+type portfolioChartData {
+  portfolioValueUSD: Float
+  updatedAt: Int
+}
+
+"""
+Referral Preferences
+"""
+type ReferralPreferences {
+  referralAmount: String
+  depositAmountThreshold: String
+}
+
+"""
+Action Script Type
+"""
+type actionScript implements ActionScriptInterface {
+  id: String
+  name: String
+  metadata: JSON
+  actionSummary: String
+  variables: JSON
+  results: JSON
+  parameters: [ActionScriptVariableType]
+  inputTokens: [inputTokenType]
+  outputTokens: [outputTokenType]
+  supplementaryVariables: [ActionScriptVariableType]
+  protocols: [protocolType]
+  tags: [tagType]
+  displayTokens: [TokenInterface]
+  numberOfSupportedTokens: Int
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+Input Token Type
+"""
+type inputTokenType implements ActionScriptTokenInterface {
+  id: String
+  token: TokenInterface
+  tokenAddressVariableName: String
+  tokenAmountVariableName: String
+  supportedPortfolioTokens: [portfolioTokenInterface]
+  supportedTokens: [SupportedTokenType]
+}
+
+"""
+Output Token Type
+"""
+type outputTokenType implements ActionScriptTokenInterface {
+  id: String
+  token: TokenInterface
+  tokenAddressVariableName: String
+  tokenAmountVariableName: String
+  supportedTokens: [token]
+}
+
+"""
+Summary of the action scripts
+"""
+type ActionScriptsSummaryType {
+  numProtocols: Int
+  numTokens: Int
+  numActions: Int
+}
+
+"""
+Yield Protocol Type
+"""
+type yieldProtocolType implements protocolInterface {
+  id: String
+  name: String
+  displayToken: token
+  supplyActionScript: actionScript
+  redeemActionScript: actionScript
+  supportedTokens: [yieldToken]
+}
+
+"""
+ACH Action Rebalance Candidate Type
+"""
+type achActionCandidate {
+  reserveActionAttemptId: Int
+  userId: Int
+  email: String
+  firstName: String
+  lastName: String
+  sardineRiskScore: String
+  actionType: String
+  inputTokens: [String]
+  outputTokens: [String]
+  totalUnconfirmedACHDeposits: String
+  totalConfirmedACHDeposits: String
+  achDebitTotal: String
+  stripeIdentityDocuments: stripeIdentityDocuments
+  plaidIdentityRecords: [plaidIdentityRecord]
+}
+
+"""
+Plaid Identity Record
+"""
+type plaidIdentityRecord {
+  type: String
+  value: String
+}
+
+"""
+USDC Yield Type
+"""
+type USDCYieldType {
+  protocol: String
+  apy: String
+}
+
+"""
+Silvergate Wire Deposit Type
+"""
+type SilvergateWireDeposit {
+  id: Int
+  silvergatePaymentId: String
+  paymentDate: String
+  entryDate: String
+  completionDate: String
+  cancelDate: String
+  routingNumber: String
+  accountNumber: String
+  originatorName: String
+  originatorAddress: String
+  memo: String
+  amount: String
+}
+
+"""
+Action Simulation
+"""
+type actionSimulationType {
+  simulationSuccess: Boolean
+  userFacingErrors: [UserFacingError]
+  inputTokens: [tokenAmountType]
+  outputTokens: [tokenAmountType]
+}
+
+"""
+Token Amount Type
+"""
+type tokenAmountType {
+  token: TokenInterface
+  amount: String
+}
+
+"""
+Chain Type
+"""
+type chainType {
+  id: Int
+  chainId: Int
+  name: String
+  transfer: ActionScriptInterface
+  sendTransaction: ActionScriptInterface
+  defaultSwap: ActionScriptInterface
+  defaultProtocolToken: TokenInterface
+  defaultStablecoinToken: TokenInterface
+  featuredTokens: [TokenInterface]
+  blockExplorer: String
+}
+
+"""
+API Mutations [Create, Update, Delete]
+"""
+type mutations {
+  userSignup(
+    email: String
+    firstName: String
+    lastName: String
+    password: String
+    optionalFields: optionFieldsType
+    referrer: String
+    platform: String
+    affiliateCode: String
+  ): userAuth
+  changeUserInfo(email: String, firstName: String, lastName: String): userAuth
+  changePassword(currentPassword: String, newPassword: String): userAuth
+  userLogin(email: String, password: String, referrer: String): userAuth
+  claimEphemeralUser(
+    email: String
+    firstName: String
+    lastName: String
+    password: String
+    optionalFields: optionFieldsType
+    referrer: String
+    platform: String
+  ): userAuth
+  ephemeralLogin: userAuth
+  createPasswordReset(email: String, useBetaUrl: Boolean): Boolean
+  resetPassword(token: String, password: String): Boolean
+  createDepositAttempt(tokenSymbol: String): depositAttempt
+  createWithdrawalAttempt(
+    amount: String
+    tokenSymbol: String
+    withdrawalAddress: String
+    userWithdrawalSignature: String
+    uniqueId: String
+  ): withdrawalAttempt
+  createManualAchWithdrawalAttempt(
+    amount: String
+    dDaiAmount: String
+    userWithdrawalSignature: String
+    plaidToken: String
+    accountId: String
+    institute: String
+    uniqueId: String
+  ): reserveWithdrawalAttempt
+  createManualAchWithdrawalAttemptWithStoredAccount(
+    amount: String
+    dDaiAmount: String
+    userWithdrawalSignature: String
+    bankAccountId: String
+  ): reserveWithdrawalAttempt
+  userSigningAddress(
+    userSigningAddress: String
+    useBackendSigning: Boolean
+    allowKeyRing: Boolean
+    chainId: Int
+  ): smartWallet
+  createSmartWalletWithInitialUserSigningAddress(
+    initialUserSigningAddress: String
+    chainId: Int
+  ): smartWallet
+  replaceSmartWalletWithInitialUserSigningAddress(
+    initialUserSigningAddress: String
+  ): smartWallet
+  customAction(
+    amount: String
+    tokenSymbol: String
+    withdrawalAddress: String
+  ): smartWalletCustomAction
+  customTransferAction(
+    amount: String
+    tokenSymbol: String
+    transferAddress: String
+  ): smartWalletCustomTransferAction
+  customReserveWithdrawalAction(amount: String): smartWalletCustomTransferAction
+  getDharmaSmartWallet(address: String): smartWallet
+  requestAddKey(keyAddress: String): addKeyRequest
+  setMetadataApproval(publicKey: String): ApprovedKeyType
+  approveAddKey(keyAddress: String, signature: String): addKeyRequest
+  rejectAddKey(keyAddress: String): addKeyRequest
+  resetKeyRing(initialKeyAddress: String): resetKeyRingRequest
+  attributeReferral(referralCode: String, source: String): Boolean
+  createSmartWalletRecoveryForUser(
+    email: String
+    additionalTimeLockDays: Int = 0
+  ): smartWalletRecoveryType
+  createInitiateSmartWalletRecoveryPayloadForUser(
+    id: Int
+  ): smartWalletRecoveryMultisigPayload
+  addSignatureToInitiation(
+    id: Int
+    signature: String
+    signer: String
+  ): smartWalletRecoveryMultisigSignatureType
+  recoverSmartWalletRecoveryForUser(id: Int): smartWalletRecoveryType
+  denySmartWalletRecoveryForUser(id: Int): smartWalletRecoveryType
+  cancelSmartWalletRecovery(id: Int): smartWalletRecoveryType
+  pullSurplus(tokenSymbol: String): surplusPull
+  debitOrderNoFee(
+    amount: Float
+    address: addressDebitDataInputType
+    personalInfo: userDebitDataInputType
+    card: cardDebitDataInputType
+    dryRun: Boolean
+  ): DebitDepositType
+  debitOrderWithStoredCardNoFee(amount: Float, cardId: Int): DebitDepositType
+  createTransferAttempt(
+    amount: String
+    message: String
+    rawDTokenAmount: String
+    tokenSymbol: String
+    transferAddress: String
+    userTransferSignature: String
+  ): transferAttempt
+  bankAccountIT(userId: String, accountNumber: String): BankAccountType
+  bankAccount(
+    institute: String
+    plaidToken: String
+    accountId: String
+  ): BankAccountType
+  revokeBankAccount(bankAccountId: Int): BankAccountType
+  plaidLinkToken: String
+  plaidLinkUpdateToken(bankAccountId: Int): String
+  markBankAccountReconnected(bankAccountId: Int): String
+  debitCard(
+    address: addressDebitDataInputType
+    personalInfo: userDebitDataInputType
+    card: cardDebitDataInputType
+  ): DebitCardType
+  revokeDebitCard(debitCardId: Int): DebitCardType
+  revokeDebitCardByDebitCardId(debitCardId: String): Boolean
+  tradeAction(rawTokenExchangeRateQuoted: String): smartWalletCustomTradeAction
+  createTradeAttempt(
+    usdcAmountQuoted: String
+    daiAmountQuoted: String
+    daiToUSDCExchangeRateQuoted: String
+    minimumDaiAmountQuoted: String
+    rawTokenExchangeRateQuoted: String
+    userSignature: String
+  ): usdcToDaiTradeAttemptType
+  verifyEmail(token: String): userAuth
+  createAddPassword(email: String): String
+  addPassword(token: String, password: String): Boolean
+  customWithdrawETHAction(
+    amount: String
+    withdrawalAddress: String
+  ): smartWalletCustomAction
+  createWithdrawETHAttempt(
+    amount: String
+    feeAmount: String
+    withdrawalAddress: String
+    userSignature: String
+  ): genericAttemptType
+  validateMerchant(validationUrl: String): applePaySessionType
+  applePayOrder(
+    paymentObject: paymentObjectType
+    amount: Float
+    smartWalletAddress: String
+    userId: Int
+  ): applePayOrderType
+  tradeETHAction(
+    ethToSupply: String
+    minimumDaiAmount: String
+  ): tradeETHForDaiAction
+  createTradeETHAttempt(
+    ethToSupply: String
+    minimumDaiAmount: String
+    target: String
+    data: String
+    userSignature: String
+    rawActionId: String
+  ): ethToDaiTradeAttempt
+  tradeETHWithFeeAction(
+    ethToSupply: String
+    daiAmount: String
+  ): tradeETHForDaiAction
+  createTradeETHWithFeeAttempt(
+    ethToSupply: String
+    daiAmount: String
+    target: String
+    data: String
+    userSignature: String
+    rawActionId: String
+  ): ethToDaiTradeAttempt
+  createUsername(username: String): usernameType
+  setProfileImage(url: String): usernameType
+  getTwitterRequestToken(callbackUrl: String): twitterOAuthToken
+  getTwitterAccessToken(
+    oAuthToken: String
+    oAuthTokenSecret: String
+    oAuthVerifier: String
+  ): TwitterAccessTokenType
+  revokeTwitterAccessToken: Boolean
+  tradeDaiForETHAction(
+    daiToSupply: String
+    minimumETHAmount: String
+  ): tradeDaiForETHAction
+  createDaiToETHTradeAttempt(
+    rawDaiToSupply: String
+    rawMinimumETHAmount: String
+    userSignature: String
+    rawActionId: String
+  ): daiToETHTradeAttempt
+  tradeDaiForETHWithFeeAction(
+    daiToSupply: String
+    ethAmount: String
+  ): tradeDaiForETHAction
+  createDaiToETHTradeWithFeeAttempt(
+    rawDaiToSupply: String
+    rawETHAmount: String
+    calls: String
+    userSignature: String
+    rawActionId: String
+  ): daiToETHTradeAttempt
+  setPushToken(token: String): String
+  blockPushNotifications: Boolean
+  unblockPushNotifications: Boolean
+  createBannedUser(userId: Int): Boolean
+  getFutureTransferApprovalMessageHash(
+    amount: String
+    tokenSymbol: String
+  ): futureTransferApproval
+  createFutureTransfer(
+    amount: String
+    message: String
+    tokenSymbol: String
+    identityType: String
+    identityId: String
+    messageHash: String
+    messageHashSignature: String
+    uniqueId: String
+  ): futureTransfer
+  acceptFutureTransfer(futureTransferId: Int): Boolean
+  declineFutureTransfer(futureTransferId: Int): Boolean
+  submitPhoneForSMSVerification(phone: String): Boolean
+  submitSMSVerificationCode(token: String): Boolean
+  resendSubmittedPhoneForSMSVerification(phone: String): Boolean
+  createUserAttestation(userId: Int): Boolean
+  createBankAccountUserAttestation(userId: Int, bankAccountId: Int): Boolean
+  unbanUser(userId: Int): Boolean
+  addCircleDebitCard(
+    circleDebitCardData: CircleDebitCardData
+    address: addressDebitDataInputType
+    personalInfo: userDebitDataInputType
+  ): String
+  encryptedKYCData(data: String): Int
+  createCircleDebitDeposit(
+    amount: String
+    idempotencyKey: String
+    sessionId: String
+    circleDebitCardRef: String
+  ): String
+  deleteUserAudit(userId: Int): String
+  processACHWithdrawals: Boolean
+  processACHDeposits: Boolean
+  createCircleRefund(
+    circlePaymentRef: String
+    amount: String
+    reason: String
+  ): Boolean
+  cancelCircleRecurringDeposit(id: Int): Boolean
+  createCircleRecurringDeposit(
+    circleDebitCardRef: String
+    frequency: String
+    amount: Float
+  ): Boolean
+  cancelWyreRecurringDeposit(id: Int): Boolean
+  createWyreRecurringDeposit(
+    debitCardId: Int
+    frequency: String
+    amount: Float
+  ): Boolean
+  etherToDaiLockedTradeActionId(
+    etherToSupply: String
+    daiAmount: String
+  ): EtherToDaiActionType
+  etherToDaiLockedTrade(
+    rawEtherToSupply: String
+    rawDaiAmount: String
+    target: String
+    data: String
+    userSignature: String
+    actionId: String
+  ): lockedTradeType
+  daiToEtherLockedTradeActionId(
+    daiToSupply: String
+    etherAmount: String
+  ): DaiToEtherActionType
+  daiToEtherLockedTrade(
+    rawDaiToSupply: String
+    rawEtherAmount: String
+    userSignature: String
+    actionId: String
+    calls: String
+  ): lockedTradeType
+  updateSystemPreference(service: String, preferences: JSON): systemPreference
+  updateUserPreference(preferences: JSON): Boolean
+  withdrawTokenActionId(
+    amount: String
+    tokenSymbol: String
+    withdrawalAddress: String
+    tokenAddress: String
+  ): smartWalletCustomAction
+  createWithdrawTokenAttempt(
+    amount: String
+    tokenSymbol: String
+    withdrawalAddress: String
+    userSignature: String
+    tokenAddress: String
+  ): genericAttemptType
+  withdrawTokenWithFeeActionId(
+    amount: String
+    tokenSymbol: String
+    withdrawalAddress: String
+    tokenAddress: String
+  ): smartWalletCustomAction
+  createWithdrawTokenWithFeeAttempt(
+    amount: String
+    tokenSymbol: String
+    withdrawalAddress: String
+    userSignature: String
+    tokenAddress: String
+    feeAmount: String
+    feeTokenId: Int
+  ): genericAttemptType
+  cancelDebitDepositsForUser(userId: Int): Boolean
+  tradeActionId(tradeQuoteId: Int): smartWalletCustomAction
+  tradeAttempt(
+    tradeQuoteId: Int
+    data: String
+    userSignature: String
+    rawActionId: String
+  ): genericAttemptType
+  tradeQuote(
+    sellAmount: String
+    sellTokenAddress: String
+    buyTokenAddress: String
+    feeTokenAddress: String
+  ): tradeQuote
+  banToken(address: String): Boolean
+  verifyToken(address: String): Boolean
+  unverifyToken(address: String): Boolean
+  setTokenVerificationManualOverride(
+    address: String
+    manualOverride: Boolean
+  ): Boolean
+  signinCoinbaseUser(code: String): userAuth
+  addTokenToPortfolio(address: String): portfolioToken
+  removeTokenFromPortfolio(address: String): portfolioToken
+  runGasReserveRefillService: String
+  requestSmartWalletRecovery(userSigningAddress: String): Boolean
+  verifyEmailForSmartWalletRecovery(token: String): Boolean
+  addSmartWalletRecoveryRequestReason(reason: String): Boolean
+  finalizeSmartWalletRecovery: Boolean
+  limitOrder(
+    buyAmount: String
+    sellAmount: String
+    sellTokenAddress: String
+    buyTokenAddress: String
+    expiresAt: String
+  ): limitOrder
+  signLimitOrder(limitOrderId: Int, signature: String): limitOrder
+  cancelLimitOrder(limitOrderId: Int): limitOrder
+  unwrapWeth: Boolean
+  rebalanceEther: Boolean
+  withdrawUSDC(amount: String): Boolean
+  withdrawUSDCForACHSettlements: Boolean
+  updateBalanceSheet: Boolean
+  achTokenWithdrawalActionId(
+    amount: String
+    tokenAddress: String
+  ): smartWalletCustomAction
+  achTokenWithdrawal(
+    amount: String
+    tokenAddress: String
+    userSignature: String
+    bankAccountId: Int
+  ): Boolean
+  achTokenWithdrawalAndLiquidateActionId(
+    tradeQuoteId: Int
+  ): smartWalletCustomAction
+  achTokenWithdrawalAndLiquidate(
+    tradeQuoteId: Int
+    actionId: String
+    userSignature: String
+    data: String
+    bankAccountId: Int
+  ): Boolean
+  achTokenDeposit(
+    amount: String
+    tokenAddress: String
+    bankAccountId: Int
+    tradeQuoteId: Int
+    transactionContextId: Int
+  ): Boolean
+  achTokenDepositQuote(
+    amount: String
+    tokenAddress: String
+  ): achTokenDepositQuoteType
+  cancelACHTokenDeposits(userId: Int): Boolean
+  createVerificationIntent: String
+  createVerificationIntentWithPhoneNumber(phoneNumber: String): Boolean
+  lockedTradeQuote(
+    sellAmount: String
+    sellTokenAddress: String
+    buyTokenAddress: String
+    feeTokenAddress: String
+  ): lockedTradeQuoteType
+  lockedTrade(tradeQuoteId: Int, utxoData: String): lockedTradeType
+  approveReserveRebalance(id: Int, tradeQuoteId: Int): Boolean
+  cancelReserveRebalance(id: Int): Boolean
+  createClientSnapshot(data: String, event: String): Boolean
+  createTransactionContext(sessionKey: String, deviceId: String): Int
+  textInstallLink(phoneNumber: String, origin: String): Boolean
+  getReferralCode: String
+  claimReferral(code: String): String
+  getReferralCodeByUsername(username: String): String
+  createActionQuote(
+    actionScriptId: Int
+    variables: JSON
+    feeTokenId: Int
+    linkedTokenIds: JSON
+    feeSource: JSON
+    source: JSON
+    destination: JSON
+  ): actionQuoteType
+  executeActionQuote(
+    actionQuoteId: Int
+    userSignature: String
+    transactionContextId: Int
+  ): actionAttemptType
+  wireTransferIdentifier: String
+  setActionScriptMetadata(
+    actionScriptName: String
+    metadata: JSON
+  ): actionScript
+  runActionsJobsIT: Boolean
+  generateOTPAuthentication: OTPAuthenticationType
+  confirmOTPAuthentication(token: String): Boolean
+  authenticateWithOTP(
+    email: String
+    password: String
+    referrer: String
+    token: String
+  ): userAuth
+  authenticateWithRecoveryCode(
+    email: String
+    password: String
+    referrer: String
+    recoveryCode: String
+  ): userAuth
+  disableOTPAuthentication(token: String): Boolean
+  disableOTPAuthenticationWithRecoveryCode(recoveryCode: String): Boolean
+  disableOTPAuthenticationByUserId(userId: Int): Boolean
+  approveActionRebalance(reserveActionAttemptId: Int): Boolean
+  cancelActionRebalance(reserveActionAttemptId: Int): Boolean
+  attemptUTXOSettlement(UTXOId: Int): Boolean
+  runMaintenanceService: Boolean
+  runInitiateCryptoRebalance: Boolean
+  runCheckSilvergateAchTransferFiles: Boolean
+  runBackfillETHPrices(daysToBackfill: Int): Boolean
+  forceMatchSilvergateWire(wireDepositId: Int, userId: Int): Boolean
+  setUserIdentity(
+    firstName: String!
+    lastName: String!
+    socialSecurityNumber: String!
+    address: JSON!
+  ): UserIdentityType
+  processPaymentsForCircleSettlement(circleSettlementResourceId: Int): Boolean
+}
+
+"""
+Information about a user to add when signing up
+"""
+input optionFieldsType {
+  country: String
+  state: String
+}
+
+"""
+Reserve Withdrawal Attempt Type
+"""
+type reserveWithdrawalAttempt implements ActivityInterfaceType {
+  id: String
+  type: String
+  userId: Int
+  createdAt: String
+  token: token
+  amount: String
+  status: String
+}
+
+"""
+Smart Wallet Custom Transfer Action Type
+"""
+type smartWalletCustomTransferAction {
+  actionId: String
+  rawDTokenAmount: String
+}
+
+"""
+reset key Request Type
+"""
+type resetKeyRingRequest {
+  id: Int
+  initialKeyAddress: String
+}
+
+"""
+Smart Wallet Recovery Multisig Payload Type
+"""
+type smartWalletRecoveryMultisigPayload {
+  id: Int
+  payload: JSON
+}
+
+"""
+Smart Wallet Recovery Multisig Signature Type
+"""
+type smartWalletRecoveryMultisigSignatureType {
+  id: Int
+  signature: String
+  signer: String
+}
+
+"""
+Affiliate Type
+"""
+type affiliateType {
+  name: String!
+  iconUrl: String
+  code: String!
+  address: String!
+  chainId: Int!
+}
+
+"""
+Address of user
+"""
+input addressDebitDataInputType {
+  street: String
+  city: String
+  state: String
+  postalCode: String
+}
+
+"""
+User data
+"""
+input userDebitDataInputType {
+  firstName: String
+  lastName: String
+  phone: String
+}
+
+"""
+Card data
+"""
+input cardDebitDataInputType {
+  ccNumber: String
+  exp: String
+  securityCode: String
+}
+
+"""
+DebitDeposit type
+"""
+type DebitDepositType implements ActivityInterfaceType {
+  id: String
+  type: String
+  token: token
+  tokenId: Int
+  userId: Int
+  status: String
+  orderId: String
+  amount: String
+  sourceAmount: String
+  destination: String
+  createdAt: String
+  updatedAt: String
+  approvedAt: String
+  debitCardId: Int
+}
+
+"""
+Transfer Attempt Type
+"""
+type transferAttempt implements ActivityInterfaceType {
+  id: String
+  type: String
+  amount: String
+  token: token
+  status: String
+  createdAt: String
+}
+
+"""
+Smart Wallet Custom Trade Action Type
+"""
+type smartWalletCustomTradeAction {
+  actionId: String
+  rawTokenExchangeRateQuoted: String
+}
+
+"""
+USDC To Dai Trade Attempt Type
+"""
+type usdcToDaiTradeAttemptType {
+  id: String
+  usdcAmount: String
+  daiAmountQuoted: String
+  createdAt: String
+}
+
+"""
+Generic Attempt Type
+"""
+type genericAttemptType {
+  id: String
+  userFacingErrors: [UserFacingError]
+}
+
+"""
+Response from Apple's servers that indicates a valid sesssion was created to process Apple Pay payments.
+"""
+type applePaySessionType {
+  epochTimestamp: Float
+  expiresAt: Float
+  merchantSessionIdentifier: String
+  nonce: String
+  merchantIdentifier: String
+  domainName: String
+  displayName: String
+  signature: String
+}
+
+"""
+Payment object created by the Apple Pay payment sheet
+"""
+input paymentObjectType {
+  billingContact: billingContactType
+  shippingContact: shippingContactType
+  token: tokenType
+}
+
+"""
+Billing contact fields entered by the user in Apple Pay
+"""
+input billingContactType {
+  addressLines: [String]
+  administrativeArea: String
+  country: String
+  countryCode: String
+  familyName: String
+  givenName: String
+  locality: String
+  phoneticFamilyName: String
+  phoneticGivenName: String
+  postalCode: String
+  subAdministrativeArea: String
+  subLocality: String
+}
+
+"""
+Shipping contact fields entered by the user in Apple Pay
+"""
+input shippingContactType {
+  addressLines: [String]
+  administrativeArea: String
+  country: String
+  countryCode: String
+  emailAddress: String
+  familyName: String
+  givenName: String
+  locality: String
+  phoneNumber: String
+  phoneticFamilyName: String
+  phoneticGivenName: String
+  postalCode: String
+  subAdministrativeArea: String
+  subLocality: String
+}
+
+"""
+Token object created by Apple Pay for securing the payment
+"""
+input tokenType {
+  paymentData: paymentDataType
+  paymentMethod: paymentMethodType
+  transactionIdentifier: String
+}
+
+"""
+Payment data created by Apple Pay for securing the payment
+"""
+input paymentDataType {
+  version: String
+  data: String
+  signature: String
+  header: paymentDataHeaderType
+}
+
+"""
+Payment data header created by Apple Pay for securing the payment
+"""
+input paymentDataHeaderType {
+  ephemeralPublicKey: String
+  publicKeyHash: String
+  transactionId: String
+}
+
+"""
+Payment method data created by Apple Pay for securing the payment
+"""
+input paymentMethodType {
+  displayName: String
+  network: String
+  type: String
+}
+
+"""
+Response indicating whether the Apple Pay order was successful.
+"""
+type applePayOrderType {
+  success: Boolean
+}
+
+"""
+Trade ETH For Dai Action Type
+"""
+type tradeETHForDaiAction {
+  ethToSupply: String
+  minimumDaiAmount: String
+  daiAmount: String
+  target: String
+  data: String
+  actionId: String
+}
+
+"""
+ETH To Dai Trade Attempt Type
+"""
+type ethToDaiTradeAttempt {
+  id: String
+}
+
+"""
+Twitter oAuth Token Type
+"""
+type twitterOAuthToken {
+  oAuthToken: String
+  oAuthTokenSecret: String
+  oAuthCallbackConfirmed: Boolean
+}
+
+"""
+Twitter Access Token Type
+"""
+type TwitterAccessTokenType {
+  oAuthToken: String
+  oAuthTokenSecret: String
+  twitterUserId: String
+  twitterScreenName: String
+}
+
+"""
+Trade Dai For ETH Action Type
+"""
+type tradeDaiForETHAction {
+  actionId: String
+  rawMinimumETHAmount: String
+  rawETHAmount: String
+  rawDaiToSupply: String
+  calls: String
+}
+
+"""
+Dai To ETH Trade Attempt Type
+"""
+type daiToETHTradeAttempt {
+  id: String
+}
+
+"""
+Future Transfer Approval Type
+"""
+type futureTransferApproval {
+  id: String
+  type: String
+  amount: String
+  token: token
+  messageHash: String
+  createdAt: String
+}
+
+"""
+Circle Debit Card data
+"""
+input CircleDebitCardData {
+  idempotencyKey: String
+  expMonth: String
+  expYear: String
+  last4: String
+  keyId: String
+  encryptedCVV: String
+  encryptedData: String
+}
+
+"""
+Dai For Ether Action Type
+"""
+type EtherToDaiActionType {
+  rawEtherToSupply: String
+  rawDaiAmount: String
+  target: String
+  data: String
+  actionId: String
+}
+
+"""
+Locked Trade Type
+"""
+type lockedTradeType {
+  id: Int
+  soldAmount: String
+  boughtAmount: String
+  fee: String
+  exchangeRate: String
+}
+
+"""
+Dai For Ether Action Type
+"""
+type DaiToEtherActionType {
+  actionId: String
+  rawEtherAmount: String
+  rawDaiToSupply: String
+  calls: String
+}
+
+"""
+Trade Quote Type
+"""
+type tradeQuote {
+  id: Int
+  sellAmount: String
+  dharmaFeeInDollars: String
+  dharmaFee: String
+  networkFeeInDollars: String
+  networkFee: String
+  buyTokenPrice: String
+  sellTokenPrice: String
+  sellToken: token
+  buyAmount: String
+  minimumBuyAmount: String
+  slippagePercentage: String
+  surgeFeePercentage: String
+  buyToken: token
+  total: String
+  daiFee: String
+  conversion: String
+  routedAmount: String
+  expiresAt: String
+  liquidityProviderFeePercentage: String
+  priceImpactPercentage: String
+  uniswapUrl: String
+  routeToken: token
+  feeToken: token
+  fee: String
+  conversionBeforeFees: String
+  userFacingErrors: [UserFacingError]
+}
+
+"""
+Portfolio Token Type
+"""
+type portfolioToken {
+  id: String
+  order: Int
+  token: token
+  hidden: Boolean
+  balance: String
+  balanceValue: String
+  withdrawableAmount: String
+  tradableAmount: String
+  isTokenTradable: Boolean
+  hasHistoricalPriceData: Boolean
+  verificationStatus: String
+}
+
+"""
+ACH Token Deposit Quote
+"""
+type achTokenDepositQuoteType {
+  tradeQuote: tradeQuote
+  rampFee: String
+  rampFeePercentage: Float
+  inputAmount: String
+  outputAmount: String
+  tradableAt: Float
+  daysUntilTradable: Int
+  daysUntilWithdrawable: Int
+  achTokenTransferProcessor: ACHTokenTransferProcessorType
+}
+
+"""
+ACH Token Transfer Processor
+"""
+type ACHTokenTransferProcessorType {
+  id: Int
+  name: String
+}
+
+"""
+Locked Trade Quote Type
+"""
+type lockedTradeQuoteType {
+  tradeQuote: tradeQuote
+  utxoData: String
+  withdrawableAt: Float
+  tradableAt: Float
+}
+
+"""
+Action Quote
+"""
+type actionQuoteType {
+  id: Int
+  dharmaFee: String
+  dharmaFeeInDollars: String
+  networkFee: String
+  networkFeeInDollars: String
+  feeDefecit: String
+  feeDefecitInDollars: String
+  actionId: String
+  simulationResults: JSON
+  simulationDescription: String
+  simulationSuccess: Boolean
+  feeToken: token
+  additionalParameters: JSON
+  inputTokens: [tokenAmountType]
+  outputTokens: [tokenAmountType]
+  actionVolumeInDollars: String
+  outcomes: [ActionOutcomeType]
+  parameters: [ActionOutcomeType]
+  availableToWithdrawAt: String
+  source: String
+  destination: String
+  feeSource: String
+  totalBankCharge: String
+  totalBankPayment: String
+  userFacingErrors: [UserFacingError]
+  transactionNetworkFee: String
+  transactionNetworkFeeInDollars: String
+  achTokenTransferProcessor: ACHTokenTransferProcessorType
+}
+
+"""
+Action Outcome Type
+"""
+union ActionOutcomeType =
+    AddressOutcomeType
+  | IntegerOutcomeType
+  | BooleanOutcomeType
+  | TokenAddressOutcomeType
+  | AmountOutcomeType
+  | TokenAndAmountOutcomeType
+  | InputTokenAndAmountOutcomeType
+  | OutputTokenAndAmountOutcomeType
+  | BytesOutcomeType
+  | WalletConnectContextOutcomeType
+
+"""
+Address Outcome Type
+"""
+type AddressOutcomeType {
+  variableName: String
+  displayValue: String
+  value: String
+  displayLabel: String
+}
+
+"""
+Integer Outcome Type
+"""
+type IntegerOutcomeType {
+  variableName: String
+  displayValue: String
+  value: Int
+  displayLabel: String
+}
+
+"""
+Boolean Outcome Type
+"""
+type BooleanOutcomeType {
+  variableName: String
+  displayValue: String
+  value: Boolean
+  displayLabel: String
+}
+
+"""
+Token Address Outcome Type
+"""
+type TokenAddressOutcomeType {
+  variableName: String
+  displayValue: String
+  value: token
+  displayLabel: String
+}
+
+"""
+Amount Outcome Type
+"""
+type AmountOutcomeType {
+  variableName: String
+  displayValue: String
+  value: String
+  displayLabel: String
+}
+
+"""
+Token And Amount Outcome Type
+"""
+type TokenAndAmountOutcomeType {
+  variableName: String
+  displayValue: String
+  value: tokenAmountType
+  displayLabel: String
+}
+
+"""
+Input Token And Amount Outcome Type
+"""
+type InputTokenAndAmountOutcomeType {
+  variableName: String
+  displayValue: String
+  value: tokenAmountType
+  displayLabel: String
+}
+
+"""
+Output Token And Amount Outcome Type
+"""
+type OutputTokenAndAmountOutcomeType {
+  variableName: String
+  displayValue: String
+  value: tokenAmountType
+  displayLabel: String
+}
+
+"""
+Bytes Outcome Type
+"""
+type BytesOutcomeType {
+  variableName: String
+  displayValue: String
+  value: String
+  displayLabel: String
+}
+
+"""
+WalletConnect Context Outcome Type
+"""
+type WalletConnectContextOutcomeType {
+  variableName: String
+  displayValue: String
+  value: WalletConnectContextValueType
+  displayLabel: String
+}
+
+"""
+WalletConnect Context Value Type
+"""
+type WalletConnectContextValueType {
+  icon: String
+  url: String
+  name: String
+  description: String
+}
+
+"""
+Action Attempt
+"""
+type actionAttemptType {
+  id: Int
+  userFacingErrors: [UserFacingError]
+}
+
+"""
+OTP Authentication Type
+"""
+type OTPAuthenticationType {
+  secret: String
+  recoveryCode: String
+}
+
+"""
+User Identity type
+"""
+type UserIdentityType {
+  userFacingErrors: [UserFacingError]
+}
+
+"""
+Pending ACH Deposit Type
+"""
+type pendingAchDeposit implements ActivityInterfaceType {
+  id: String
+  type: String
+  amount: String
+  token: token
+  tokenId: Int
+  achDepositRequestId: Int
+  userId: Int
+  status: String
+  createdAt: String
+}
+
+"""
+Portfolio Token Type
+"""
+type portfolioViewToken implements portfolioTokenInterface {
+  id: Int
+  order: Int
+  token: TokenInterface
+  hidden: Boolean
+  balance: String
+  balanceValue: String
+  withdrawableAmount: String
+  utxoAmount: String
+  utxoUnderReviewAmount: String
+  tradableAmount: String
+  isTokenTradable: Boolean
+  hasHistoricalPriceData: Boolean
+  verificationStatus: String
+}
+
+"""
+Portfolio yToken Type
+"""
+type portfolioViewYToken implements portfolioTokenInterface {
+  id: Int
+  order: Int
+  token: TokenInterface
+  hidden: Boolean
+  balance: String
+  balanceValue: String
+  withdrawableAmount: String
+  utxoAmount: String
+  utxoUnderReviewAmount: String
+  tradableAmount: String
+  isTokenTradable: Boolean
+  hasHistoricalPriceData: Boolean
+  verificationStatus: String
+  balanceUnderlying: String
+}
+
+"""
+Portfolio Token Type V2
+"""
+type portfolioViewTokenV2 implements portfolioTokenInterfaceV2 {
+  id: Int
+  token: TokenInterface
+  balance: String
+  balanceValue: String
+}
+
+"""
+Portfolio yToken V2 Type
+"""
+type portfolioViewYTokenV2 implements portfolioTokenInterfaceV2 {
+  id: Int
+  token: TokenInterface
+  balance: String
+  balanceValue: String
+  balanceUnderlying: String
+}
+
+"""
+Legacy Action Script Type
+"""
+type legacyActionScript implements ActionScriptInterface {
+  id: String
+  name: String
+  metadata: JSON
+  actionSummary: String
+  variables: JSON
+  results: JSON
+  parameters: [ActionScriptVariableType]
+  inputTokens: [inputTokenType]
+  outputTokens: [outputTokenType]
+  supplementaryVariables: [ActionScriptVariableType]
+  protocols: [protocolType]
+  tags: [tagType]
+  displayTokens: [token]
+  numberOfSupportedTokens: Int
+  createdAt: String
+  updatedAt: String
+}
+
+"""
+Pool Token Type
+"""
+type poolToken implements TokenInterface {
+  id: String
+  address: String
+  symbol: String
+  name: String
+  numDecimals: Int
+  createdAt: String
+  updatedAt: String
+  chainId: String
+  previousPrice: String
+  price: String
+  marketCap: String
+  supportedActionScripts: [ActionScriptInterface]
+  tokenIcon: tokenIconType
+  verificationStatus: String
+  manualOverride: Boolean
+}

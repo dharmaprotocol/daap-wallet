@@ -1,0 +1,79 @@
+{
+  "name": "daap-dharma-wallet",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@ethersproject/wallet": "^5.5.0",
+    "@rehooks/local-storage": "^2.4.4",
+    "@usedapp/core": "^0.11.0",
+    "@walletconnect/client": "^1.7.1",
+    "bignumber.js": "^9.0.2",
+    "eip1193-provider": "^1.0.1",
+    "framer-motion": "^6.2.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hooks-global-state": "^1.0.2",
+    "react-icons": "^4.3.1",
+    "react-number-format": "^4.9.1",
+    "react-scripts": "5.0.0",
+    "react-spinners": "^0.11.0",
+    "react-use": "^17.3.2",
+    "styled-components": "^5.2.1"
+  },
+  "devDependencies": {
+    "@json-rpc-tools/types": "^1.7.6",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@trivago/prettier-plugin-sort-imports": "3.1.1",
+    "@types/jest": "^27.4.0",
+    "@types/lodash": "4.14.178",
+    "@types/node": "^16.11.24",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "@types/react-mailchimp-subscribe": "2.1.1",
+    "@types/react-phone-number-input": "3.0.13",
+    "@types/styled-components": "5.1.18",
+    "@typescript-eslint/eslint-plugin": "5.7.0",
+    "@typescript-eslint/parser": "5.7.0",
+    "babel-jest": "27.4.5",
+    "babel-plugin-styled-components": "2.0.2",
+    "cypress": "9.1.1",
+    "eslint": "8.4.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-import": "2.25.3",
+    "eslint-plugin-react": "7.27.1",
+    "identity-obj-proxy": "3.0.0",
+    "jest": "27.4.5",
+    "jest-styled-components": "7.0.8",
+    "jest-watch-typeahead": "1.0.0",
+    "lint-staged": "12.1.2",
+    "prettier": "2.5.1",
+    "typescript": "^4.5.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
