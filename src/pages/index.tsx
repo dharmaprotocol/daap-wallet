@@ -33,7 +33,7 @@ import { DappNavLayout } from "src/components/layouts/DappNavLayout";
 import { InputWithButton } from "src/components/molecules/InputWithButton";
 import { Span, Text, Title } from "src/components/typography";
 import { middleTruncate } from "src/helpers/text";
-import { useClaimDSW } from "src/hooks/useClaimDSW";
+import {DharmaWalletClaimer, useClaimDSW } from "src/hooks/useClaimDSW";
 import { useClaimedWallets } from "src/hooks/useClaimedWallets";
 import { useDappScreen } from "src/hooks/useDappScreen";
 import {
@@ -195,9 +195,23 @@ const RightArrow = () => {
 };
 
 interface YourWalletsScreenProps {
-  onImport: (wallet: EthersWallet) => void;
+  onImport: (secret: DharmaWalletClaimer) => void;
   switchWallet: (address: string) => void;
 }
+
+const decodeWalletData = (dharmaSmartWalletPrivateKey: string): DharmaWalletClaimer => {
+    const data = window.atob(dharmaSmartWalletPrivateKey);
+    const object = JSON.parse(data);
+    const wallet = new EthersWallet(object[0]);
+    const walletClaimerData = object[1];
+    if (!walletClaimerData.merkleProof) {
+        throw "There isn't merkleProof present"
+    }
+    return {
+      wallet,
+      walletClaimerData,
+    }
+};
 
 const YourWalletsScreen: React.FC<YourWalletsScreenProps> = ({
   onImport,
@@ -206,16 +220,20 @@ const YourWalletsScreen: React.FC<YourWalletsScreenProps> = ({
   const { account, chainId } = useEthers();
   const { getClaimedWallets, claimedWallets, loading } = useClaimedWallets();
   const [dharmaSmartWalletPrivateKey, setDharmaSmartWalletPrivateKey] =
-    useState("");
+    useState<string>("");
   const [isValid, setIsValid] = useState(false);
   useEffect(() => {
-    try {
-      new EthersWallet(dharmaSmartWalletPrivateKey);
-    } catch {
-      return setIsValid(false);
+    if (dharmaSmartWalletPrivateKey) {
+      try {
+        decodeWalletData(dharmaSmartWalletPrivateKey);
+        setIsValid(true);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log(e);
+        alert("We have an issue trying to decode your secret.");
+        setIsValid(false);
+      }
     }
-
-    return setIsValid(true);
   }, [dharmaSmartWalletPrivateKey]);
 
   useEffect(() => {
@@ -274,7 +292,7 @@ const YourWalletsScreen: React.FC<YourWalletsScreenProps> = ({
             <Spacing $spaceChildrenSize="medium">
               <Text bold>
                 To interact with your Dharma smart wallet, please paste the
-                hexidecimal string that was sent to the email address associated
+                secret that was sent to the email address associated
                 with your Dharma account.
               </Text>
               <Text type="secondary">
@@ -288,7 +306,6 @@ const YourWalletsScreen: React.FC<YourWalletsScreenProps> = ({
                 button={
                   <Button
                     buttonType="secondary"
-                    disabled={isValid}
                     size="tiny"
                     $rectangle
                     onClick={async () => {
@@ -306,7 +323,7 @@ const YourWalletsScreen: React.FC<YourWalletsScreenProps> = ({
               block
               disabled={!isValid}
               onClick={() =>
-                onImport(new EthersWallet(dharmaSmartWalletPrivateKey))
+                onImport(decodeWalletData(dharmaSmartWalletPrivateKey))
               }
             >
               Import secret
@@ -1931,7 +1948,7 @@ export const Wallet = (): JSX.Element => {
   });
   const [screen, setScreen] = useDappScreen();
   const [viewedWallet, setViewedWallet] = useState<string>();
-  const [walletToImport, setWalletToImport] = useState<EthersWallet>();
+  const [walletToImport, setWalletToImport] = useState<DharmaWalletClaimer>();
 
   const { account, chainId } = useEthers();
   useEffect(() => {
@@ -1948,14 +1965,15 @@ export const Wallet = (): JSX.Element => {
   };
 
   const { send: isDSWClaimed } = useIsDSWClaimed();
-  const { state, send: claimDSW } = useClaimDSW(walletToImport);
+  const { state, send: claimDSW, resetState } = useClaimDSW(walletToImport);
 
   useEffect(() => {
-    if (state?.status === "Success" && walletToImport?.address) {
-      setViewedWallet(walletToImport?.address);
+    if (state?.status === "Success" && walletToImport?.walletClaimerData.wallet) {
+      setViewedWallet(walletToImport?.walletClaimerData.wallet);
+      resetState();
       setScreen("WALLET");
     }
-  }, [walletToImport?.address, state?.status]);
+  }, [walletToImport?.walletClaimerData.wallet, state?.status]);
 
   return (
     <>
@@ -1973,12 +1991,15 @@ export const Wallet = (): JSX.Element => {
         {screen === "WHAT_YOU_WILL_NEED" && <WhatYouWillNeedScreen />}
         {screen === "YOUR_WALLETS" && (
           <YourWalletsScreen
-            onImport={async (wallet: EthersWallet) => {
-              setWalletToImport(wallet);
-              const isClaimed = await isDSWClaimed(wallet.address);
+            onImport={async (dharmaWalletClaimer: DharmaWalletClaimer) => {
+              if (!dharmaWalletClaimer) {
+                return;
+              }
+              const isClaimed = await isDSWClaimed(dharmaWalletClaimer);
               if (isClaimed) {
                 alert("Wallet is already claimed.");
               } else {
+                setWalletToImport(dharmaWalletClaimer);
                 setScreen("FOUND_WALLET");
               }
             }}
@@ -1987,7 +2008,7 @@ export const Wallet = (): JSX.Element => {
         )}
         {screen === "FOUND_WALLET" && walletToImport && account && (
           <FoundWalletScreen
-            foundWalletAddress={walletToImport?.address}
+            foundWalletAddress={walletToImport?.walletClaimerData.wallet}
             state={state}
             onClaim={() => {
               claimDSW().catch(alert);
