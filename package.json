@@ -1,5 +1,6 @@
 {
   "name": "daap-dharma-wallet",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -8,6 +9,7 @@
     "@rehooks/local-storage": "^2.4.4",
     "@usedapp/core": "^0.11.0",
     "@walletconnect/client": "^1.7.1",
+    "@walletconnect/web3-provider": "^1.7.1",
     "@web3-react/walletconnect-connector": "^6.2.10",
     "bignumber.js": "^9.0.2",
     "eip1193-provider": "^1.0.1",

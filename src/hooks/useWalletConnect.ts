@@ -30,6 +30,8 @@ export const useWalletConnect = (smartWalletAddress: string) => {
     // eslint-disable-next-line no-console
     console.log("Connecting", uri);
 
+    window.Buffer = window.Buffer || require('buffer').Buffer;
+
     const connector = new WalletConnect({
       uri,
       clientMeta: {
