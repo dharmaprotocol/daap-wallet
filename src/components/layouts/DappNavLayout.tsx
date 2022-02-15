@@ -19,6 +19,7 @@ import { Text, Title } from 'src/components/typography'
 import { middleTruncate } from 'src/helpers/text'
 import { useDappScreen } from 'src/hooks/useDappScreen'
 import { NavButtons } from 'src/types/components'
+import logo from 'src/assets/images/wallets/metamask_no_background.png';
 
 const { useGlobalState } = createGlobalState<{
   connectWalletModalOpen: boolean
@@ -186,7 +187,7 @@ export const DappNavLayout: React.FC = ({ children }) => {
                 >
                   <Image
                     css="width: 72px; height: 72px;"
-                    src={'/assets/images/byow_steps/Ethereum.png'}
+                    src={logo}
                     alt="Ethereum Icon"
                   />
                   <Title>Connect your wallet</Title>
