@@ -4,7 +4,13 @@ import { ethers } from "ethers";
 import { useEffect, useRef, useState } from "react";
 import { Abi } from "src/abis/Wallet";
 
-export const useWalletConnect = (smartWalletAddress: string) => {
+export interface WalletConnectRequest {
+    message: string,
+    onAccept: () => void
+    onReject: () => void
+}
+
+export const useWalletConnect = (smartWalletAddress: string, onWalletConnectRequest: (walletConnectRequest: WalletConnectRequest) => void) => {
   const { chainId, library } = useEthers();
 
   const contract = new ethers.Contract(
@@ -75,29 +81,21 @@ export const useWalletConnect = (smartWalletAddress: string) => {
       if (error) {
         throw error;
       }
-      if (window.confirm) {
-        const peerMeta = payload?.params?.[0]?.peerMeta;
-        if (
-          window.confirm(
-            `Do you want to accept this WalletConnect connection? ${peerMeta?.name} ${peerMeta?.url}`
-          )
-        ) {
+      const peerMeta = payload?.params?.[0]?.peerMeta;
+      onWalletConnectRequest({
+        message: `Do you want to accept this WalletConnect connection? ${peerMeta?.name} ${peerMeta?.url}`,
+        onAccept: () => {
           connector.approveSession({
             accounts: [smartWalletAddress],
             // @ts-ignore
             chainId
           });
           setConnected(true);
-        } else {
+        },
+        onReject: () => {
           connector.rejectSession();
-        }
-      } else {
-        connector.rejectSession();
-        alert(
-          "Please update your browser or change it. The browser has to support window.confirm"
-        );
-      }
-
+        },
+      })
       // Handle Session Request
 
       /* payload:
@@ -127,41 +125,34 @@ export const useWalletConnect = (smartWalletAddress: string) => {
       }
 
       const confirmDialog = async (callback: () => void) => {
-        if (window.confirm) {
-          if (
-            window.confirm(
-              `Do you want to accept this WalletConnect request? ${JSON.stringify(
-                payload
-              )}`
-            )
-          ) {
+        onWalletConnectRequest({
+          message: `Do you want to accept this WalletConnect request? ${JSON.stringify(payload)}`,
+          onAccept: async () => {
             try {
               await callback();
             } catch (e) {
               alert(e);
+              connector.rejectRequest({
+                id: payload.id,
+                error: {
+                  code: 0,
+                  // @ts-ignore
+                  message: (e?.message || e.toString()) || "There was an issue."
+                }
+              });
             }
-          } else {
+          },
+          onReject: () => {
             connector.rejectRequest({
               id: payload.id,
               error: {
-                code: 0,
+                code: 1,
                 message:
-                  "User rejected request or window.confirm doesn't work. If you want to execute this request, please disable any adblock or use another browser."
+                  "User rejected request."
               }
             });
-          }
-        } else {
-          connector.rejectRequest({
-            id: payload.id,
-            error: {
-              code: 1,
-              message: "Browser doesn't support window.confirm"
-            }
-          });
-          alert(
-            "Please update your browser or change it. The browser has to support window.confirm"
-          );
-        }
+          },
+        })
       };
 
       // @ts-ignore
@@ -189,6 +180,8 @@ export const useWalletConnect = (smartWalletAddress: string) => {
       const sendTransaction = () => {
         confirmDialog(async () => {
           refTransactionCall.current = payload;
+          // eslint-disable-next-line no-console
+          console.log({ payload });
           send(payload.params).catch(alert);
         }).catch(alert);
       };
@@ -320,17 +313,16 @@ export const useWalletConnect = (smartWalletAddress: string) => {
 
   useEffect(() => {
     if (
-      state.status === "Success" &&
-      state.receipt &&
+      state.transaction?.hash &&
       refTransactionCall.current?.id
     ) {
       connectorRef.current?.approveRequest({
         id: refTransactionCall.current?.id,
-        result: state.receipt.transactionHash
+        result: state.transaction?.hash
       });
       refTransactionCall.current = null;
     }
-  }, [state.status, state.receipt]);
+  }, [state.transaction?.hash]);
 
   // TODO: Maybe add a useEffect here with returned function that disconnects session if component is removed?  Might help with need to clear site data/use incognito?
   return {

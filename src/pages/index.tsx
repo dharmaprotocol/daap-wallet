@@ -55,7 +55,7 @@ import {
   useERC1155Transfer,
   useTransfer
 } from "src/hooks/useTransfer";
-import { useWalletConnect } from "src/hooks/useWalletConnect";
+import {useWalletConnect, WalletConnectRequest} from "src/hooks/useWalletConnect";
 import styled, {useTheme} from "styled-components/macro";
 
 const DappCardWrapper = styled.div`
@@ -674,6 +674,7 @@ const ImportTokenERC20Modal: React.FC<ImportTokenModalProps> = ({
             onClick={async () => {
               if (await importToken(address)) {
                 onRequestClose();
+                setAddress("");
               }
             }}
           >
@@ -752,10 +753,64 @@ const ImportTokenERC721Modal: React.FC<ImportTokenModalProps> = ({
             onClick={async () => {
               if (await importToken({ contract: address, id })) {
                 onRequestClose();
+                setAddress("")
+                setId("")
               }
             }}
           >
             Add Custom Token
+          </Button>
+        </Spacing>
+      </Card>
+    </CenteredModal>
+  );
+};
+
+
+
+interface WalletConnectRequestProps {
+  isOpen: boolean
+  walletConnectRequest: WalletConnectRequest | undefined
+  onRequestClose: () => void
+}
+
+const WalletConnectRequestModal: React.FC<WalletConnectRequestProps> = ({
+    isOpen,
+    walletConnectRequest,
+    onRequestClose,
+}) => {
+  return (
+    <CenteredModal isOpen={isOpen} onRequestClose={onRequestClose}>
+      <Card
+        type="default-no-button"
+        css="display: flex; flex-direction: column;width: 375px;"
+      >
+        <Spacing $size="medium" $center $borderedBottom>
+          <Title level={4}>WalletConnect</Title>
+        </Spacing>
+        <Spacing $size="medium" $spaceChildrenSize="medium">
+          <Text css="overflow-wrap: break-word">
+            {walletConnectRequest?.message}
+          </Text>
+          <Button
+            buttonType="primary"
+            block
+            onClick={() => {
+              walletConnectRequest?.onAccept();
+              onRequestClose();
+            }}
+          >
+            Accept
+          </Button>
+          <Button
+            buttonType="secondary"
+            block
+            onClick={() => {
+              walletConnectRequest?.onReject();
+              onRequestClose();
+            }}
+          >
+            Reject
           </Button>
         </Spacing>
       </Card>
@@ -830,6 +885,8 @@ const ImportTokenERC1155Modal: React.FC<ImportTokenModalProps> = ({
             onClick={async () => {
               if (await importToken({ contract: address, id })) {
                 onRequestClose();
+                setAddress("")
+                setId("")
               }
             }}
           >
@@ -907,6 +964,7 @@ const WalletConnectModal: React.FC<WalletConnectModalProps> = ({
               const valid = await connect(uri);
               if (valid) {
                 onRequestClose();
+                setUri("");
               }
             }}
           >
@@ -999,11 +1057,13 @@ const Transfer1155Modal: React.FC<Transfer1155ModalProps> = ({
           </Spacing>
           <Button
             buttonType="primary"
-            disabled={!address || loading}
+            disabled={!address || !amount || loading}
             block
             onClick={() => {
               transfer().catch(alert);
               onRequestClose();
+              setAddress("");
+              setAmount("");
             }}
           >
             Transfer
@@ -1087,6 +1147,7 @@ const Transfer721Modal: React.FC<Transfer721ModalProps> = ({
             onClick={() => {
               transfer().catch(alert);
               onRequestClose();
+              setAddress("");
             }}
           >
             Transfer
@@ -1163,11 +1224,13 @@ const TransferModal: React.FC<TransferModalProps> = ({
           </Spacing>
           <Button
             buttonType="primary"
-            disabled={!address || loading}
+            disabled={!address || !amount || loading}
             block
             onClick={() => {
               transfer().catch(alert);
               onRequestClose();
+              setAddress("");
+              setAmount("");
             }}
           >
             Transfer
@@ -1727,6 +1790,8 @@ const WalletScreen: React.FC<WalletScreenProps> = ({
     useState<boolean>(false);
   const [isImportTokensERC1155Open, setIsImportTokensERC1155Open] =
     useState<boolean>(false);
+  const [walletConnectRequest, setWalletConnectRequest] =
+    useState<WalletConnectRequest | undefined>();
   const [transferModalState, setTransferModalState] = useState<{
     isOpen: boolean;
     token: Token | null;
@@ -1756,7 +1821,7 @@ const WalletScreen: React.FC<WalletScreenProps> = ({
     useImportTokensERC721(walletAddress);
 
   const { connect, disconnect, connector, connected } =
-    useWalletConnect(walletAddress);
+    useWalletConnect(walletAddress, setWalletConnectRequest);
 
   return (
     <>
@@ -1828,6 +1893,11 @@ const WalletScreen: React.FC<WalletScreenProps> = ({
             isOpen={isImportTokensERC1155Open}
             onRequestClose={() => setIsImportTokensERC1155Open(false)}
             walletAddress={walletAddress}
+          />
+          <WalletConnectRequestModal
+            isOpen={!!walletConnectRequest}
+            walletConnectRequest={walletConnectRequest}
+            onRequestClose={() => setWalletConnectRequest(undefined)}
           />
           <TransferModal
             smartWalletAddress={walletAddress}
