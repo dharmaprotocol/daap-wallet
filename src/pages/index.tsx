@@ -1747,7 +1747,7 @@ const Transaction: React.FC<{ transaction: StoredTransaction }> = ({
               error={transaction.receipt?.status === 0}
               accented={transaction.receipt?.status === 1}
             >
-              {transaction.receipt?.status === 0 ? "Fail" : "Success"}
+              {transaction.receipt?.status === 0 ? "Fail" : "Mint"}
             </Text>
           )}
           <ViewOnBlockExplorerLink
@@ -2042,6 +2042,10 @@ export const Wallet = (): JSX.Element => {
       setViewedWallet(walletToImport?.walletClaimerData.wallet);
       resetState();
       setScreen("WALLET");
+    } else if (state?.status === "Fail" && walletToImport?.walletClaimerData.wallet) {
+      alert(`There was an issue: ${JSON.stringify(state)}`);
+      resetState();
+      setScreen("YOUR_WALLETS");
     }
   }, [walletToImport?.walletClaimerData.wallet, state?.status]);
 
