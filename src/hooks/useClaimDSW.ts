@@ -1,8 +1,8 @@
-import { Wallet as EthersWallet } from "@ethersproject/wallet";
-import { useContractFunction, useEthers } from "@usedapp/core";
-import { ethers } from "ethers";
-import { useState } from "react";
-import { Abi, contractAddress } from "src/abis/IMerkleWalletClaimer";
+import {Wallet as EthersWallet} from "@ethersproject/wallet";
+import {ChainId, useContractFunction, useEthers} from "@usedapp/core";
+import {ethers} from "ethers";
+import {useState} from "react";
+import {Abi, contractAddressByChainId} from "src/abis/IMerkleWalletClaimer";
 
 interface MerkleWallet {
   index: number
@@ -18,10 +18,11 @@ export interface DharmaWalletClaimer {
 
 export const useClaimDSW = (walletToImport: DharmaWalletClaimer | undefined) => {
   const [loading, setLoading] = useState(false);
-  const { account, library } = useEthers();
+  const { account, library, chainId } = useEthers();
 
   const contract = new ethers.Contract(
-    contractAddress,
+    // @ts-ignore
+    contractAddressByChainId[chainId || ChainId.Mainnet],
     Abi,
     library?.getSigner()
   );

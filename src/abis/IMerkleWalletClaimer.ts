@@ -1,3 +1,5 @@
+import {ChainId} from "@usedapp/core";
+
 export const Abi = [
   {
     inputs: [
@@ -78,4 +80,7 @@ export const Abi = [
   },
 ]
 
-export const contractAddress = '0x0237dcB5edB3927743893A6278c0E1C8c43EA762'
+export const contractAddressByChainId = {
+  [ChainId.Polygon]: "0xBa811f09f7A30A8a7AD1B0341DA8007A547FC902",
+  [ChainId.Mainnet]: "0xD8470a6d796d54F13f243A4cf1a890E65bF3670E",
+};
