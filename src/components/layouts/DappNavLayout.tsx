@@ -1,51 +1,50 @@
-import { DAppProvider, Mainnet, Polygon, useEthers } from '@usedapp/core'
-import { useEffect } from 'react'
-import { createGlobalState } from 'react-hooks-global-state'
-import { FiChevronRight } from 'react-icons/fi'
-import styled, { useTheme } from 'styled-components/macro'
-
-import { Background } from 'src/components/atoms/Background'
-import { Button } from 'src/components/atoms/Button'
-import { Card } from 'src/components/atoms/Card'
-import { CloseButton } from 'src/components/atoms/CloseButton'
-import { Image } from 'src/components/atoms/Image'
-import { Link } from 'src/components/atoms/Link'
-import { CenteredModal } from 'src/components/atoms/Modal'
-import { NavMenuButton } from 'src/components/atoms/NavMenuButton'
-import { Spacing } from 'src/components/atoms/Spacing'
-import { Nav } from 'src/components/molecules/Nav'
-import { SwitchNetworkButton } from 'src/components/molecules/SwitchNetworkButton'
-import { Text, Title } from 'src/components/typography'
-import { middleTruncate } from 'src/helpers/text'
-import { useDappScreen } from 'src/hooks/useDappScreen'
-import { NavButtons } from 'src/types/components'
-import logo from 'src/assets/images/wallets/metamask_no_background.png';
+import { DAppProvider, Mainnet, Polygon, useEthers } from "@usedapp/core";
+import { useEffect } from "react";
+import { createGlobalState } from "react-hooks-global-state";
+import { FiChevronRight } from "react-icons/fi";
+import metamaskLogoWithBackground from "src/assets/images/wallets/metamask";
+import metamaskLogo from "src/assets/images/wallets/metamask_no_background";
+import { Background } from "src/components/atoms/Background";
+import { Button } from "src/components/atoms/Button";
+import { Card } from "src/components/atoms/Card";
+import { CloseButton } from "src/components/atoms/CloseButton";
+import { Image } from "src/components/atoms/Image";
+import { CenteredModal } from "src/components/atoms/Modal";
+import { NavMenuButton } from "src/components/atoms/NavMenuButton";
+import { Spacing } from "src/components/atoms/Spacing";
+import { Nav } from "src/components/molecules/Nav";
+import { SwitchNetworkButton } from "src/components/molecules/SwitchNetworkButton";
+import { Text, Title } from "src/components/typography";
+import { middleTruncate } from "src/helpers/text";
+import { useDappScreen } from "src/hooks/useDappScreen";
+import { NavButtons } from "src/types/components";
+import styled, { useTheme } from "styled-components/macro";
 
 const { useGlobalState } = createGlobalState<{
-  connectWalletModalOpen: boolean
+  connectWalletModalOpen: boolean;
 }>({
-  connectWalletModalOpen: false,
-})
+  connectWalletModalOpen: false
+});
 
 interface ConnectWalletButtonProps {
-  iconUrl: string
-  title: string
-  text: string
-  onClick: () => void
+  iconUrl: string;
+  title: string;
+  text: string;
+  onClick: () => void;
 }
 
 const WalletImage = styled(Image)`
   width: 50px;
   height: 50px;
-`
+`;
 
 const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
   iconUrl,
   onClick,
   title,
-  text,
+  text
 }) => {
-  const { text: textTheme } = useTheme()
+  const { text: textTheme } = useTheme();
   return (
     <Button block buttonType="unstyled" onClick={onClick}>
       <Card
@@ -67,92 +66,91 @@ const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
         </Spacing>
       </Card>
     </Button>
-  )
-}
+  );
+};
 
 const Buttons: NavButtons = ({ breakpoint }) => {
-  const [, setConnectWalletModalOpen] = useGlobalState('connectWalletModalOpen')
-  const { account } = useEthers()
-  const truncatedAddress = account && middleTruncate(account, 13)
-  const buttonText = truncatedAddress ?? 'Connect Wallet'
-  const onClick = account ? () => null : () => setConnectWalletModalOpen(true)
+  const [, setConnectWalletModalOpen] = useGlobalState(
+    "connectWalletModalOpen"
+  );
+  const { account } = useEthers();
+  const truncatedAddress = account && middleTruncate(account, 13);
+  const buttonText = truncatedAddress ?? "Connect Wallet";
+  const onClick = account ? () => null : () => setConnectWalletModalOpen(true);
 
   const buttonContent = truncatedAddress ? (
     <Spacing
       $flexDirection="row"
       $spaceChildrenSize="small"
-      $alignItems={'center'}
+      $alignItems={"center"}
     >
-      <Image
-        src={'/assets/images/wallets/metamask_no_background.png'}
-        css="width: 32px; height: 32px;"
-      />
+      <Image src={metamaskLogo} css="width: 32px; height: 32px;" />
       <SwitchNetworkButton disabled />
       <div>{buttonText}</div>
     </Spacing>
   ) : (
     <>{buttonText}</>
-  )
+  );
 
-  if (breakpoint === 'mobile') {
+  if (breakpoint === "mobile") {
     return (
       <NavMenuButton
         block
-        buttonType={account ? 'light' : 'primary'}
+        buttonType={account ? "light" : "primary"}
         onClick={onClick}
       >
         {buttonContent}
       </NavMenuButton>
-    )
+    );
   }
 
   return (
-    <Button buttonType={account ? 'light' : 'primary'} onClick={onClick}>
+    <Button buttonType={account ? "light" : "primary"} onClick={onClick}>
       {buttonContent}
     </Button>
-  )
-}
+  );
+};
 
 const ConnectMetamaskButton: React.FC<{ onConnect: () => void }> = ({
-  onConnect,
+  onConnect
 }) => {
-  const { account, activateBrowserWallet } = useEthers()
-  const [, setScreen] = useDappScreen()
+  const { account, activateBrowserWallet } = useEthers();
+  const [, setScreen] = useDappScreen();
 
   useEffect(() => {
     if (account) {
-      onConnect()
-      setScreen('YOUR_WALLETS')
+      onConnect();
+      setScreen("YOUR_WALLETS");
     }
-  }, [account])
+  }, [account]);
 
   return (
     <ConnectWalletButton
-      iconUrl="/assets/images/wallets/metamask.png"
+      iconUrl={metamaskLogo}
       onClick={async () => {
         try {
           // @ts-ignore
-          window.showEthereumAlertErrors = false
-          await activateBrowserWallet()
+          window.showEthereumAlertErrors = false;
+          await activateBrowserWallet();
           // @ts-ignore
-          window.showEthereumAlertErrors = true
+          window.showEthereumAlertErrors = true;
         } catch (e) {
-          alert(e)
+          alert(e);
           // @ts-ignore
-          window.showEthereumAlertErrors = true
+          window.showEthereumAlertErrors = true;
         }
       }}
       title="Metamask"
       text="Connect browser based wallet"
     />
-  )
-}
+  );
+};
 
 export const DappNavLayout: React.FC = ({ children }) => {
   const [connectWalletModalOpen, setConnectWalletModalOpen] = useGlobalState(
-    'connectWalletModalOpen'
-  )
-  const onCloseWalletModal = () => setConnectWalletModalOpen(false)
+    "connectWalletModalOpen"
+  );
+  const onCloseWalletModal = () => setConnectWalletModalOpen(false);
 
   return (
     <DAppProvider
@@ -183,11 +181,10 @@ export const DappNavLayout: React.FC = ({ children }) => {
                   $center
                   $textAlign="center"
                   $spaceChildrenSize="medium"
-                  $borderedBottom
                 >
                   <Image
-                    css="width: 72px; height: 72px;"
-                    src={logo}
+                    css="width: 80px; height: 80px;"
+                    src={metamaskLogoWithBackground}
                     alt="Ethereum Icon"
                   />
                   <Title>Connect your wallet</Title>
@@ -197,16 +194,11 @@ export const DappNavLayout: React.FC = ({ children }) => {
                   </Text>
                   <ConnectMetamaskButton onConnect={onCloseWalletModal} />
                 </Spacing>
-                <Spacing $size="medium" $center>
-                  <Link href="" target="_blank">
-                    I don&apos;t have a wallet
-                  </Link>
-                </Spacing>
               </Card>
             </CenteredModal>
           </Background>
         </main>
       </div>
     </DAppProvider>
-  )
-}
+  );
+};

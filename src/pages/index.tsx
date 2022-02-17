@@ -19,6 +19,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { useCopyToClipboard } from "react-use";
 import { Abi as Abi721 } from "src/abis/ERC721";
 import { Abi as Abi1155 } from "src/abis/ERC1155";
+import walletConnectLogo from "src/assets/images/wallets/wallet_connect";
 import { Button } from "src/components/atoms/Button";
 import { Card } from "src/components/atoms/Card";
 import { Flex } from "src/components/atoms/Flex";
@@ -33,7 +34,7 @@ import { DappNavLayout } from "src/components/layouts/DappNavLayout";
 import { InputWithButton } from "src/components/molecules/InputWithButton";
 import { Span, Text, Title } from "src/components/typography";
 import { middleTruncate } from "src/helpers/text";
-import {DharmaWalletClaimer, useClaimDSW } from "src/hooks/useClaimDSW";
+import { DharmaWalletClaimer, useClaimDSW } from "src/hooks/useClaimDSW";
 import { useClaimedWallets } from "src/hooks/useClaimedWallets";
 import { useDappScreen } from "src/hooks/useDappScreen";
 import {
@@ -55,8 +56,11 @@ import {
   useERC1155Transfer,
   useTransfer
 } from "src/hooks/useTransfer";
-import {useWalletConnect, WalletConnectRequest} from "src/hooks/useWalletConnect";
-import styled, {useTheme} from "styled-components/macro";
+import {
+  useWalletConnect,
+  WalletConnectRequest
+} from "src/hooks/useWalletConnect";
+import styled, { useTheme } from "styled-components/macro";
 
 const DappCardWrapper = styled.div`
   position: relative;
@@ -199,18 +203,20 @@ interface YourWalletsScreenProps {
   switchWallet: (address: string) => void;
 }
 
-const decodeWalletData = (dharmaSmartWalletPrivateKey: string): DharmaWalletClaimer => {
-    const data = window.atob(dharmaSmartWalletPrivateKey);
-    const object = JSON.parse(data);
-    const wallet = new EthersWallet(object[0]);
-    const walletClaimerData = object[1];
-    if (!walletClaimerData.merkleProof) {
-        throw "There isn't merkleProof present"
-    }
-    return {
-      wallet,
-      walletClaimerData,
-    }
+const decodeWalletData = (
+  dharmaSmartWalletPrivateKey: string
+): DharmaWalletClaimer => {
+  const data = window.atob(dharmaSmartWalletPrivateKey);
+  const object = JSON.parse(data);
+  const wallet = new EthersWallet(object[0]);
+  const walletClaimerData = object[1];
+  if (!walletClaimerData.merkleProof) {
+    throw "There isn't merkleProof present";
+  }
+  return {
+    wallet,
+    walletClaimerData
+  };
 };
 
 const YourWalletsScreen: React.FC<YourWalletsScreenProps> = ({
@@ -292,8 +298,8 @@ const YourWalletsScreen: React.FC<YourWalletsScreenProps> = ({
             <Spacing $spaceChildrenSize="medium">
               <Text bold>
                 To interact with your Dharma smart wallet, please paste the
-                secret that was sent to the email address associated
-                with your Dharma account.
+                secret that was sent to the email address associated with your
+                Dharma account.
               </Text>
               <Text type="secondary">
                 This will link your Dharma wallet with your Metamask giving you
@@ -476,10 +482,7 @@ const WalletConnect: React.FC<WalletConnectProps> = ({
         $justifyContent="flex-start"
         $spaceChildrenSize="small"
       >
-        <Image
-          src={"/assets/images/wallets/wallet_connect.png"}
-          css="width: 40px; height: 40px"
-        />
+        <Image src={walletConnectLogo} css="width: 40px; height: 40px" />
         <Spacing $horizontalSize="small" $alignItems={"flex-start"}>
           <Title level={4}>
             Connected to {connector.peerMeta?.name || "-Name Unavailable-"}
@@ -508,10 +511,7 @@ const WalletConnect: React.FC<WalletConnectProps> = ({
         $justifyContent="flex-start"
         $spaceChildrenSize="small"
       >
-        <Image
-          src={"/assets/images/wallets/wallet_connect.png"}
-          css="width: 40px; height: 40px"
-        />
+        <Image src={walletConnectLogo} css="width: 40px; height: 40px" />
         <Spacing $horizontalSize="small" $alignItems={"flex-start"}>
           <Title level={4}>WalletConnect</Title>
           <Text type="secondary">Connect to any Dapp</Text>
@@ -753,8 +753,8 @@ const ImportTokenERC721Modal: React.FC<ImportTokenModalProps> = ({
             onClick={async () => {
               if (await importToken({ contract: address, id })) {
                 onRequestClose();
-                setAddress("")
-                setId("")
+                setAddress("");
+                setId("");
               }
             }}
           >
@@ -766,18 +766,16 @@ const ImportTokenERC721Modal: React.FC<ImportTokenModalProps> = ({
   );
 };
 
-
-
 interface WalletConnectRequestProps {
-  isOpen: boolean
-  walletConnectRequest: WalletConnectRequest | undefined
-  onRequestClose: () => void
+  isOpen: boolean;
+  walletConnectRequest: WalletConnectRequest | undefined;
+  onRequestClose: () => void;
 }
 
 const WalletConnectRequestModal: React.FC<WalletConnectRequestProps> = ({
-    isOpen,
-    walletConnectRequest,
-    onRequestClose,
+  isOpen,
+  walletConnectRequest,
+  onRequestClose
 }) => {
   return (
     <CenteredModal isOpen={isOpen} onRequestClose={onRequestClose}>
@@ -885,8 +883,8 @@ const ImportTokenERC1155Modal: React.FC<ImportTokenModalProps> = ({
             onClick={async () => {
               if (await importToken({ contract: address, id })) {
                 onRequestClose();
-                setAddress("")
-                setId("")
+                setAddress("");
+                setId("");
               }
             }}
           >
@@ -1790,8 +1788,9 @@ const WalletScreen: React.FC<WalletScreenProps> = ({
     useState<boolean>(false);
   const [isImportTokensERC1155Open, setIsImportTokensERC1155Open] =
     useState<boolean>(false);
-  const [walletConnectRequest, setWalletConnectRequest] =
-    useState<WalletConnectRequest | undefined>();
+  const [walletConnectRequest, setWalletConnectRequest] = useState<
+    WalletConnectRequest | undefined
+  >();
   const [transferModalState, setTransferModalState] = useState<{
     isOpen: boolean;
     token: Token | null;
@@ -1820,8 +1819,10 @@ const WalletScreen: React.FC<WalletScreenProps> = ({
   const { unimportToken: unimportToken721 } =
     useImportTokensERC721(walletAddress);
 
-  const { connect, disconnect, connector, connected } =
-    useWalletConnect(walletAddress, setWalletConnectRequest);
+  const { connect, disconnect, connector, connected } = useWalletConnect(
+    walletAddress,
+    setWalletConnectRequest
+  );
 
   return (
     <>
@@ -2038,11 +2039,17 @@ export const Wallet = (): JSX.Element => {
   const { state, send: claimDSW, resetState } = useClaimDSW(walletToImport);
 
   useEffect(() => {
-    if (state?.status === "Success" && walletToImport?.walletClaimerData.wallet) {
+    if (
+      state?.status === "Success" &&
+      walletToImport?.walletClaimerData.wallet
+    ) {
       setViewedWallet(walletToImport?.walletClaimerData.wallet);
       resetState();
       setScreen("WALLET");
-    } else if (state?.status === "Fail" && walletToImport?.walletClaimerData.wallet) {
+    } else if (
+      state?.status === "Fail" &&
+      walletToImport?.walletClaimerData.wallet
+    ) {
       alert(`There was an issue: ${JSON.stringify(state)}`);
       resetState();
       setScreen("YOUR_WALLETS");
@@ -2058,8 +2065,7 @@ export const Wallet = (): JSX.Element => {
           flex: 1;
           height: 100%;
           ${screen !== "WALLET" &&
-          "align-items: center;" +
-          "justify-content: center;"}
+          "align-items: center;" + "justify-content: center;"}
         `}
       >
         {screen === "WHAT_YOU_WILL_NEED" && <WhatYouWillNeedScreen />}

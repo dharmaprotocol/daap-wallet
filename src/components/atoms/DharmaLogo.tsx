@@ -1,7 +1,7 @@
+import dharmaLogo from "src/assets/images/dharma_logo_no_shadow";
+import dharmaLogoText from "src/assets/images/dharma_logo_text";
 import { OptimizedImage } from "src/components/atoms/Image";
 import { STYLES } from "src/constants/index";
-import dharmaLogo from "src/assets/images/dharma_logo_no_shadow.png";
-import dharmaLogoText from "src/assets/images/dharma_logo_text.png";
 import styled from "styled-components/macro";
 
 const { BOX_SHADOWS } = STYLES;
