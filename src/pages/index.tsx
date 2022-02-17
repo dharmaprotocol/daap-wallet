@@ -19,7 +19,6 @@ import { FiArrowRight } from "react-icons/fi";
 import { useCopyToClipboard } from "react-use";
 import { Abi as Abi721 } from "src/abis/ERC721";
 import { Abi as Abi1155 } from "src/abis/ERC1155";
-import walletConnectLogo from "src/assets/images/wallets/wallet_connect";
 import { Button } from "src/components/atoms/Button";
 import { Card } from "src/components/atoms/Card";
 import { Flex } from "src/components/atoms/Flex";
@@ -37,6 +36,7 @@ import { middleTruncate } from "src/helpers/text";
 import { DharmaWalletClaimer, useClaimDSW } from "src/hooks/useClaimDSW";
 import { useClaimedWallets } from "src/hooks/useClaimedWallets";
 import { useDappScreen } from "src/hooks/useDappScreen";
+import walletConnectLogo from "src/assets/images/wallets/wallet_connect";
 import {
   ERC721,
   ERC1155,
@@ -168,7 +168,6 @@ const WhatYouWillNeedScreen: React.FC = () => (
             <Title level={4}>
               ETH and or MATIC to submit your transactions.
             </Title>
-            <Link href="">Learn about network fees</Link>
           </div>
           <Spacing $spaceChildrenSize="medium">
             <NumberedStep
@@ -306,7 +305,7 @@ const YourWalletsScreen: React.FC<YourWalletsScreenProps> = ({
                 access to your wallet and the tokens within.
               </Text>
               <InputWithButton
-                placeholder="Secret (Hexadecimal String)"
+                placeholder="Secret (Base64 String)"
                 value={dharmaSmartWalletPrivateKey}
                 onChange={e => setDharmaSmartWalletPrivateKey(e.target.value)}
                 button={
@@ -370,7 +369,7 @@ const FoundWalletScreen: React.FC<FoundWalletScreenProps> = ({
             </Text>
             <InputWithButton
               readOnly
-              placeholder="Secret (Hexadecimal String)"
+              placeholder="Secret (Base64 String)"
               value={foundWalletAddress}
               button={
                 <Button
@@ -482,7 +481,10 @@ const WalletConnect: React.FC<WalletConnectProps> = ({
         $justifyContent="flex-start"
         $spaceChildrenSize="small"
       >
-        <Image src={walletConnectLogo} css="width: 40px; height: 40px" />
+        <Image
+          src={walletConnectLogo}
+          css="width: 40px; height: 40px"
+        />
         <Spacing $horizontalSize="small" $alignItems={"flex-start"}>
           <Title level={4}>
             Connected to {connector.peerMeta?.name || "-Name Unavailable-"}
@@ -511,7 +513,10 @@ const WalletConnect: React.FC<WalletConnectProps> = ({
         $justifyContent="flex-start"
         $spaceChildrenSize="small"
       >
-        <Image src={walletConnectLogo} css="width: 40px; height: 40px" />
+        <Image
+          src={walletConnectLogo}
+          css="width: 40px; height: 40px"
+        />
         <Spacing $horizontalSize="small" $alignItems={"flex-start"}>
           <Title level={4}>WalletConnect</Title>
           <Text type="secondary">Connect to any Dapp</Text>
@@ -919,6 +924,11 @@ const WalletConnectModal: React.FC<WalletConnectModalProps> = ({
           <Title level={4}>WalletConnect</Title>
         </Spacing>
         <Spacing $size="medium" $spaceChildrenSize="medium">
+          <Spacing $size="small" css="border-radius: 12px;border: 1px solid #FD5757;">
+            <Text error>
+              This feature is experimental and will not be maintained to accommodate future WalletConnect developments.
+            </Text>
+          </Spacing>
           <Text>How to connect to a Dapp.</Text>
           <Text type="secondary">
             1. Open a Dapp with WalletConnect support.
