@@ -113,9 +113,11 @@ const LINEAR_GRADIENTS = {
   ROYAL_BLUE: "linear-gradient(264.39deg, #5865F2 5.69%, #2937CD 91.05%)"
 };
 
-const CHAIN_IDS = {
-  ETHEREUM: 1,
-  POLYGON: 137
+export const CHAIN_IDS = {
+  ETHEREUM: 1337,
+  POLYGON: 1337,
+  Mainnet: 1337,
+  Polygon: 1337,
 } as const;
 
 export const CONSTANTS = {

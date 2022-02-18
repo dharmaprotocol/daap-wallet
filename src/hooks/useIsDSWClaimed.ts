@@ -1,7 +1,8 @@
-import {ChainId, useEthers} from "@usedapp/core";
+import {useEthers} from "@usedapp/core";
 import { ethers } from "ethers";
 import { Abi, contractAddressByChainId } from "src/abis/IMerkleWalletClaimer";
 import {DharmaWalletClaimer} from "./useClaimDSW";
+import {CHAIN_IDS} from "../constants";
 
 export const useIsDSWClaimed = () => {
   const { library, chainId } = useEthers();
@@ -9,7 +10,7 @@ export const useIsDSWClaimed = () => {
   const checkIsClaimed = async (dharmaWalletClaimer: DharmaWalletClaimer): Promise<boolean> => {
     const contract = new ethers.Contract(
       // @ts-ignore
-      contractAddressByChainId[chainId || ChainId.Mainnet],
+      contractAddressByChainId[chainId || CHAIN_IDS.Mainnet],
       Abi,
       library?.getSigner()
     );

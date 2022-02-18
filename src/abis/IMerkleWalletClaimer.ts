@@ -1,4 +1,4 @@
-import {ChainId} from "@usedapp/core";
+import {CHAIN_IDS} from "../constants";
 
 export const Abi = [
   {
@@ -81,6 +81,6 @@ export const Abi = [
 ]
 
 export const contractAddressByChainId = {
-  [ChainId.Polygon]: "0xBa811f09f7A30A8a7AD1B0341DA8007A547FC902",
-  [ChainId.Mainnet]: "0xD8470a6d796d54F13f243A4cf1a890E65bF3670E",
+  [CHAIN_IDS.Polygon]: "0xBa811f09f7A30A8a7AD1B0341DA8007A547FC902",
+  [CHAIN_IDS.Mainnet]: "0xD8470a6d796d54F13f243A4cf1a890E65bF3670E",
 };

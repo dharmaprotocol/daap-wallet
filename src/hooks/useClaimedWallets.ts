@@ -1,7 +1,8 @@
-import {ChainId, useEthers} from "@usedapp/core";
+import {useEthers} from "@usedapp/core";
 import { ethers } from "ethers";
 import { useState } from "react";
 import { Abi, contractAddressByChainId } from "src/abis/IMerkleWalletClaimer";
+import {CHAIN_IDS} from "../constants";
 
 export const useClaimedWallets = () => {
   const [loading, setLoading] = useState(false);
@@ -11,7 +12,7 @@ export const useClaimedWallets = () => {
   const getClaimedWallets = async () => {
     const contract = new ethers.Contract(
       // @ts-ignore
-      contractAddressByChainId[chainId || ChainId.Mainnet],
+      contractAddressByChainId[chainId || CHAIN_IDS.Mainnet],
       Abi,
       library?.getSigner()
     );

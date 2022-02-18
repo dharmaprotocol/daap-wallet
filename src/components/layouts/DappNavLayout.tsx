@@ -1,4 +1,4 @@
-import { DAppProvider, Mainnet, Polygon, useEthers } from "@usedapp/core";
+import { DAppProvider, useEthers } from "@usedapp/core";
 import { useEffect } from "react";
 import { createGlobalState } from "react-hooks-global-state";
 import { FiChevronRight } from "react-icons/fi";
@@ -152,9 +152,10 @@ export const DappNavLayout: React.FC = ({ children }) => {
   );
   const onCloseWalletModal = () => setConnectWalletModalOpen(false);
 
+  // config={{ networks: [Mainnet, Polygon], pollingInterval: 20000 }}
   return (
     <DAppProvider
-      config={{ networks: [Mainnet, Polygon], pollingInterval: 30000 }}
+      config={{ pollingInterval: 20000 }}
     >
       <div className="container">
         <main>

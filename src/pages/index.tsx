@@ -5,7 +5,6 @@ import {
   RequestArguments
 } from "@json-rpc-tools/types";
 import {
-  ChainId,
   StoredTransaction,
   TransactionStatus,
   useEthers,
@@ -61,6 +60,7 @@ import {
   WalletConnectRequest
 } from "src/hooks/useWalletConnect";
 import styled, { useTheme } from "styled-components/macro";
+import {CHAIN_IDS} from "../constants";
 
 const DappCardWrapper = styled.div`
   position: relative;
@@ -109,11 +109,11 @@ const NumberedStep: React.FC<NumberedStepProps> = ({ number, title, text }) => (
 );
 
 const BLOCK_EXPLORERS_CONFIG = {
-  [ChainId.Mainnet]: {
+  [CHAIN_IDS.Mainnet]: {
     blockExplorerName: "Etherscan",
     blockExplorerUrl: "https://etherscan.io"
   },
-  [ChainId.Polygon]: {
+  [CHAIN_IDS.Polygon]: {
     blockExplorerName: "Polygonscan",
     blockExplorerUrl: "https://polygonscan.com"
   }
@@ -124,8 +124,8 @@ const ViewOnBlockExplorerLink: React.FC<{
   type: "tx" | "address";
 }> = ({ hash, type }) => {
   const { chainId } = useEthers();
-  const blockExplorerConfig =
-    BLOCK_EXPLORERS_CONFIG[chainId as ChainId.Mainnet | ChainId.Polygon];
+  // @ts-ignore
+  const blockExplorerConfig = BLOCK_EXPLORERS_CONFIG[chainId as CHAIN_IDS.Mainnet | CHAIN_IDS.Polygon];
   return (
     <Link
       href={`${blockExplorerConfig?.blockExplorerUrl}/${type}/${hash}`}
