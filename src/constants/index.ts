@@ -114,10 +114,10 @@ const LINEAR_GRADIENTS = {
 };
 
 export const CHAIN_IDS = {
-  ETHEREUM: 1,
-  POLYGON: 1337,
-  Mainnet: 1,
-  Polygon: 1337,
+  ETHEREUM: 1337,
+  POLYGON: 137,
+  Mainnet: 1337,
+  Polygon: 137,
 } as const;
 
 export const CONSTANTS = {
