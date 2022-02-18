@@ -6,6 +6,7 @@ import {
   useTokenBalance,
 } from '@usedapp/core'
 import { useState } from 'react'
+import {CHAIN_IDS} from "../constants";
 
 type address = string
 type addresses = address[]
@@ -23,7 +24,7 @@ export interface Token {
 export const useBaseTokenInfo = (walletAddress: string) => {
   const { chainId } = useEthers()
   const token =
-    chainId === 1
+    chainId === CHAIN_IDS.ETHEREUM
       ? {
           symbol: 'ETH',
           name: 'Ether',
