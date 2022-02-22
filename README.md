@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Dapp Dharma wallet
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
