@@ -1,66 +1,59 @@
-import { Wallet as EthersWallet } from "@ethersproject/wallet";
+import {Wallet as EthersWallet} from "@ethersproject/wallet";
+import {JsonRpcRequest, JsonRpcResponse, RequestArguments} from "@json-rpc-tools/types";
 import {
-  JsonRpcRequest,
-  JsonRpcResponse,
-  RequestArguments
-} from "@json-rpc-tools/types";
-import {
+  // ChainId,
   StoredTransaction,
-  TransactionStatus,
+  TransactionStatus, useContractFunction,
+  // useContractFunction,
   useEthers,
   useTransactions
 } from "@usedapp/core";
 import WalletConnectType from "@walletconnect/client";
-import { ProviderRpcError } from "eip1193-provider";
-import { ethers } from "ethers";
-import React, { useEffect, useRef, useState } from "react";
-import { FiArrowRight } from "react-icons/fi";
-import { useCopyToClipboard } from "react-use";
-import { Abi as Abi721 } from "src/abis/ERC721";
-import { Abi as Abi1155 } from "src/abis/ERC1155";
-import { Button } from "src/components/atoms/Button";
-import { Card } from "src/components/atoms/Card";
-import { Flex } from "src/components/atoms/Flex";
-import { Image } from "src/components/atoms/Image";
-import { LinearGradient } from "src/components/atoms/LinearGradient";
-import { Link } from "src/components/atoms/Link";
-import { LoadingIndicator } from "src/components/atoms/LoadingIndicator";
-import { CenteredModal } from "src/components/atoms/Modal";
-import { NumericalInput } from "src/components/atoms/NumericalInput";
-import { Spacing } from "src/components/atoms/Spacing";
-import { DappNavLayout } from "src/components/layouts/DappNavLayout";
-import { InputWithButton } from "src/components/molecules/InputWithButton";
-import { Span, Text, Title } from "src/components/typography";
-import { middleTruncate } from "src/helpers/text";
-import { DharmaWalletClaimer, useClaimDSW } from "src/hooks/useClaimDSW";
-import { useClaimedWallets } from "src/hooks/useClaimedWallets";
-import { useDappScreen } from "src/hooks/useDappScreen";
+import {ProviderRpcError} from "eip1193-provider";
+import {ethers} from "ethers";
+import React, {useEffect, useRef, useState} from "react";
+import {FiArrowRight} from "react-icons/fi";
+import {useCopyToClipboard} from "react-use";
+import {Abi as Abi721} from "src/abis/ERC721";
+import {Abi as Abi1155} from "src/abis/ERC1155";
+import {Button} from "src/components/atoms/Button";
+import {Card} from "src/components/atoms/Card";
+import {Flex} from "src/components/atoms/Flex";
+import {Image} from "src/components/atoms/Image";
+import {LinearGradient} from "src/components/atoms/LinearGradient";
+import {Link} from "src/components/atoms/Link";
+import {LoadingIndicator} from "src/components/atoms/LoadingIndicator";
+import {CenteredModal} from "src/components/atoms/Modal";
+import {NumericalInput} from "src/components/atoms/NumericalInput";
+import {Spacing} from "src/components/atoms/Spacing";
+import {DappNavLayout} from "src/components/layouts/DappNavLayout";
+import {InputWithButton} from "src/components/molecules/InputWithButton";
+import {Span, Text, Title} from "src/components/typography";
+import {middleTruncate} from "src/helpers/text";
+import {DharmaWalletClaimer, useClaimDSW} from "src/hooks/useClaimDSW";
+import {useClaimedWallets} from "src/hooks/useClaimedWallets";
+import {useDappScreen} from "src/hooks/useDappScreen";
 import walletConnectLogo from "src/assets/images/wallets/wallet_connect";
 import {
-  ERC721,
   ERC1155,
+  ERC721,
   Token,
   useBaseTokenInfo,
-  useImportTokens,
-  useImportTokensERC721,
-  useImportTokensERC1155,
   useImportedTokens,
-  useImportedTokensERC721,
   useImportedTokensERC1155,
+  useImportedTokensERC721,
+  useImportTokens,
+  useImportTokensERC1155,
+  useImportTokensERC721,
   useTokenInfo
 } from "src/hooks/useImportTokens";
-import { useIsDSWClaimed } from "src/hooks/useIsDSWClaimed";
-import {
-  useERC721Transfer,
-  useERC1155Transfer,
-  useTransfer
-} from "src/hooks/useTransfer";
-import {
-  useWalletConnect,
-  WalletConnectRequest
-} from "src/hooks/useWalletConnect";
-import styled, { useTheme } from "styled-components/macro";
+import {useIsDSWClaimed} from "src/hooks/useIsDSWClaimed";
+import {useERC1155Transfer, useERC721Transfer, useTransfer} from "src/hooks/useTransfer";
+import {useWalletConnect, WalletConnectRequest} from "src/hooks/useWalletConnect";
+import styled, {useTheme} from "styled-components/macro";
 import {CHAIN_IDS} from "../constants";
+import {Abi as AbiWallet} from "../abis/Wallet";
+// import {Abi as AbiMerkle, contractAddressByChainId} from "src/abis/IMerkleWalletClaimer";
 
 const DappCardWrapper = styled.div`
   position: relative;
@@ -158,7 +151,7 @@ const WhatYouWillNeedScreen: React.FC = () => (
             </Link>
           </Spacing>
           <div>
-            <Title level={4}>Hexidecimal Secret(s)</Title>
+            <Title level={4}>Hexadecimal Secret(s)</Title>
             <Text type="secondary">
               Delivered to the email address associated with your Dharma
               account(s).
@@ -416,6 +409,40 @@ const FoundWalletScreen: React.FC<FoundWalletScreenProps> = ({
         </Card>
       </Spacing>
     </DappCardWrapper>
+  );
+};
+
+interface SendTransactionManuallyProps {
+  onClick: () => void
+}
+
+const SendTransactionManually: React.FC<SendTransactionManuallyProps> = ({ onClick }) => {
+  return (
+    <Button buttonType="unstyled" onClick={onClick} block>
+      <Spacing
+        $size="medium"
+        $flexDirection="row"
+        $alignItems="center"
+        $borderedBottom
+        $spaceChildrenSize="small"
+      >
+        <Spacing
+          $size="medium"
+          $justifyContent="center"
+          $alignItems="center"
+          css="border: 2px dashed rgba(0, 0, 0, 0.3); border-radius: 100px; width: 40px; height: 40px;"
+        >
+          <Title secondary level={4}>
+            {'</>'}
+          </Title>
+        </Spacing>
+        <Spacing $horizontalSize="small" $alignItems={"flex-start"}>
+          <Title level={4}>Build Transaction</Title>
+          <Text type="secondary">You can send transactions manually</Text>
+        </Spacing>
+        <RightArrow />
+      </Spacing>
+    </Button>
   );
 };
 
@@ -1543,6 +1570,143 @@ const WalletsListERC721: React.FC<WalletsListERC721Props> = ({
   );
 };
 
+interface SendTransactionManuallyModalProps {
+  isOpen: boolean
+  onRequestClose: () => void
+  smartWalletAddress: string
+}
+
+const Field: React.FC<{label: string, setValue: (value: string) => void, value: string, subLabel: string}> = ({ label, setValue, value, subLabel }) => {
+      return (
+          <Spacing css="margin-top: 10px;">
+              <Text>{label}</Text>
+              {subLabel && <Text type="secondary">{subLabel}</Text>}
+              <InputWithButton
+                value={value}
+                onChange={e => setValue(e.target.value)}
+                button={
+                  <Button
+                    buttonType="primary"
+                    size="small"
+                    $rectangle
+                    onClick={async () => {
+                      const text = await navigator.clipboard.readText();
+                      setValue(text);
+                    }}
+                  >
+                    Paste
+                  </Button>
+                }
+              />
+          </Spacing>
+      );
+};
+
+const SendTransactionManuallyModal: React.FC<SendTransactionManuallyModalProps> = ({ smartWalletAddress, onRequestClose, isOpen }) => {
+
+  const [to, setTo] = useState("");
+  const [value, setValue] = useState("");
+  const [data, setData] = useState("");
+
+  const { library } = useEthers();
+
+  const contract = new ethers.Contract(
+    smartWalletAddress,
+    AbiWallet,
+    library?.getSigner()
+  );
+
+  let sendValue = "0x00";
+  try {
+     sendValue = ethers.utils.parseEther(value).toHexString()
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
+  }
+
+  const { state, send, resetState } = useContractFunction(contract, "execute", {
+    transactionName: `Execute to:${to} value:${sendValue} data:${data}`,
+  });
+
+  const execute = async () => {
+    try {
+      await send([{
+        to,
+        value: sendValue,
+        data,
+      }]);
+    } catch (e){
+      // eslint-disable-next-line no-console
+      console.log(e);
+      alert(e);
+    }
+  }
+
+  return (
+      <CenteredModal isOpen={isOpen} onRequestClose={() => { onRequestClose();resetState(); }}>
+        <Card
+          type="default-no-button"
+          css="display: flex; flex-direction: column; width: 500px;"
+        >
+          <Spacing $size="medium" $center $borderedBottom>
+            <Title level={4}>Build your own transaction</Title>
+          </Spacing>
+          <Spacing $size="medium" $spaceChildrenSize="medium" css="margin-top: 10px;">
+            <Field
+                value={to}
+                setValue={setTo}
+                label="To (address)"
+                subLabel=""
+            />
+            <Field
+                value={value}
+                setValue={setValue}
+                label="Value (e.g '1', means 1 ETH or Matic)."
+                subLabel="We'll multitply it by 10^18 and convert it to hexadecimal"
+            />
+            <Field
+                value={data}
+                setValue={setData}
+                label="Data (e.g 0x)"
+                subLabel=""
+            />
+          </Spacing>
+          <Spacing $size="medium" $spaceChildrenSize="medium">
+              <Button
+                buttonType="primary"
+                disabled={state.status !== "None"}
+                block
+                onClick={execute}
+              >
+                Execute
+              </Button>
+              <Button
+                buttonType="primary"
+                disabled={state.status === "None"}
+                block
+                onClick={resetState}
+              >
+                Reset
+              </Button>
+            </Spacing>
+            <Spacing css="margin-top: 10px;margin-bottom: 10px;" $center $textAlign="center">
+              <Text type="secondary" textAlign="center">
+                {state.status !== "None" && state.status}
+              </Text>
+              {
+                  state.transaction?.hash && (
+                      <ViewOnBlockExplorerLink
+                        hash={state.transaction?.hash}
+                        type="tx"
+                      />
+                  )
+              }
+            </Spacing>
+        </Card>
+      </CenteredModal>
+  )
+};
+
 interface WalletTokenERC721ElementProps {
   erc721: ERC721;
   onClick: (token: ERC721) => void;
@@ -1771,7 +1935,7 @@ const Transaction: React.FC<{ transaction: StoredTransaction }> = ({
 const TransactionList: React.FC = () => {
   const { transactions } = useTransactions();
   return (
-    <Card type="default-no-button" css="display: flex; flex-direction: column;">
+    <Card type="default-no-button" css="display: flex; flex-direction: column;overflow-wrap: break-word;">
       {transactions?.map(transaction => {
         return (
           <>
@@ -1798,6 +1962,7 @@ const WalletScreen: React.FC<WalletScreenProps> = ({
     useState<boolean>(false);
   const [isImportTokensERC1155Open, setIsImportTokensERC1155Open] =
     useState<boolean>(false);
+  const [isOpenSendTransactionManually, setSendTransactionManually] = useState<boolean>(false);
   const [walletConnectRequest, setWalletConnectRequest] = useState<
     WalletConnectRequest | undefined
   >();
@@ -1864,6 +2029,9 @@ const WalletScreen: React.FC<WalletScreenProps> = ({
               disconnect={disconnect}
               onClick={() => setIsWalletConnectOpen(true)}
             />
+            <SendTransactionManually
+              onClick={() => setSendTransactionManually(true)}
+            />
           </Card>
           <WalletsList
             walletAddress={walletAddress}
@@ -1885,6 +2053,11 @@ const WalletScreen: React.FC<WalletScreenProps> = ({
             onUnimport={erc721 => unimportToken721(erc721)}
           />
           <TransactionList />
+          <SendTransactionManuallyModal
+            smartWalletAddress={walletAddress}
+            isOpen={isOpenSendTransactionManually}
+            onRequestClose={() => setSendTransactionManually(false)}
+          />
           <WalletConnectModal
             connect={connect}
             isOpen={isWalletConnectOpen}
